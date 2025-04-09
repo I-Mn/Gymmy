@@ -1,1 +1,3 @@
 .vscode/
+*.exe
+gym_management.cpp
