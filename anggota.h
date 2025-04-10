@@ -3,36 +3,13 @@
 #include <iostream>
 #include <string>
 #include "data.h"
+#define head headAnggota
 using namespace std;
 
 void addAnggota(anggotaNode *&head, int id, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih){
-    anggotaNode *newMember = new anggotaNode;
-    anggotaNode *current = head;
-    if (head != NULL){
-        newMember->id = id;
-        newMember->nama = nama;
-        newMember->telp = telp;
-        newMember->umur = umur;
-        newMember->paket = paket;
-        newMember->jenisKelamin = jenisKelamin;
-        newMember->pelatih = pelatih;
-        newMember->next = NULL;
-        while (current->next != NULL){
-            current = current->next;
-        }
-        current->next = newMember;
-    } else {
-        newMember->id = id;
-        newMember->nama = nama;
-        newMember->telp = telp;
-        newMember->umur = umur;
-        newMember->paket = paket;
-        newMember->jenisKelamin = jenisKelamin;
-        newMember->pelatih = pelatih;
-        newMember->next = head;
-        head = newMember;
-    }
+    loadAnggota(head, id, nama, telp, umur, paket, jenisKelamin, pelatih);
     countIdAnggota++;
+    saveToDatabase();
 };
 
 void viewAnggota(){
@@ -42,7 +19,7 @@ void viewAnggota(){
         return;
     }
     while (current != NULL){
-        cout << "ID: "<<current->id<<"\nNama: "<<current->nama<<"\nNo. Telp: "<<current->telp<<"\nUmur: "<<current->umur<<"\nPaket: "<<current->paket<<"\nJenis Kelamin: "<<current->jenisKelamin<<"\nPelatih: "<<current->pelatih<<endl;
+        cout << "ID: "<<current->id<<"\nNama: "<<current->nama<<"\nNo. Telp: "<<current->telp<<"\nUmur: "<<current->umur<<"\nPaket: "<<current->paket<<"\nJenis Kelamin: "<<current->jenisKelamin<<"\nPelatih: "<<current->pelatih<<endl<<endl;
         current = current->next;
     }
 }
@@ -62,6 +39,7 @@ void editAnggota(anggotaNode *&head, int id, string nama, string telp, int umur,
     current->paket = paket;
     current->jenisKelamin = jenisKelamin;
     current->pelatih = pelatih;
+    saveToDatabase();
 }
 
 void hapusAnggota(anggotaNode *&head, int id){
@@ -82,6 +60,7 @@ void hapusAnggota(anggotaNode *&head, int id){
     }
     delete current;
     cout << "Anggota dengan ID " << id << " telah dihapus." << endl;
+    saveToDatabase();
 }
 
 void fungsiTambahAnggota(){

@@ -4,6 +4,7 @@
 using namespace std;
 
 int main(){
+    loadFromDatabase();
     int menu;
     menu = 0;
     while (true){
