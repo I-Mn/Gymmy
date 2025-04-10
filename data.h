@@ -6,7 +6,7 @@ using namespace std;
 struct anggotaNode{
     int id;
     string nama;
-    int telp;
+    string telp;
     int umur;
     string paket;
     string jenisKelamin;

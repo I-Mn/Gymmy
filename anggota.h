@@ -5,7 +5,7 @@
 #include "data.h"
 using namespace std;
 
-void addAnggota(anggotaNode *&head, int id, string nama, int telp, int umur, string paket, string jenisKelamin, string pelatih){
+void addAnggota(anggotaNode *&head, int id, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih){
     anggotaNode *newMember = new anggotaNode;
     anggotaNode *current = head;
     if (head != NULL){
@@ -41,14 +41,13 @@ void viewAnggota(){
         cout << "Tidak ada anggota yang terdaftar." << endl;
         return;
     }
-    cout << "ID\tNama\tTelp\tUmur\tPaket\tJenis Kelamin\tPelatih" << endl;
     while (current != NULL){
-        cout << current->id << "\t" << current->nama << "\t" << current->telp << "\t" << current->umur << "\t" << current->paket << "\t" << current->jenisKelamin << "\t" << current->pelatih << endl;
+        cout << "ID: "<<current->id<<"\nNama: "<<current->nama<<"\nNo. Telp: "<<current->telp<<"\nUmur: "<<current->umur<<"\nPaket: "<<current->paket<<"\nJenis Kelamin: "<<current->jenisKelamin<<"\nPelatih: "<<current->pelatih<<endl;
         current = current->next;
     }
 }
 
-void editAnggota(anggotaNode *&head, int id, string nama, int telp, int umur, string paket, string jenisKelamin, string pelatih){
+void editAnggota(anggotaNode *&head, int id, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih){
     anggotaNode *current = head;
     while (current != NULL && current->id != id){
         current = current->next;
@@ -87,7 +86,7 @@ void hapusAnggota(anggotaNode *&head, int id){
 
 void fungsiTambahAnggota(){
     int id = countIdAnggota + 1;
-    int telp;
+    string telp;
     int umur;
     string nama;
     string paket;
@@ -96,8 +95,7 @@ void fungsiTambahAnggota(){
     cout << "Masukkan nama anggota: ";
     getline(cin, nama);
     cout << "Masukkan nomor telepon anggota: ";
-    cin >> telp;
-    cin.ignore();
+    getline(cin, telp);
     cout << "Masukkan umur anggota: ";
     cin >> umur;
     cin.ignore();
@@ -121,7 +119,7 @@ void fungsiHapusAnggota(){
 void fungsiEditAnggota(){
     int id;
     string nama;
-    int telp;
+    string telp;
     int umur;
     string paket;
     string jenisKelamin;
@@ -132,8 +130,7 @@ void fungsiEditAnggota(){
     cout << "Masukkan nama baru anggota: ";
     getline(cin, nama);
     cout << "Masukkan nomor telepon baru anggota: ";
-    cin >> telp;
-    cin.ignore();
+    getline(cin, telp);
     cout << "Masukkan umur baru anggota: ";
     cin >> umur;
     cin.ignore();
