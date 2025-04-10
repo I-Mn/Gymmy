@@ -1,8 +1,6 @@
-#ifndef ANGGOTA_H
-#define ANGGOTA_H
 #include <iostream>
 #include <string>
-#include "data.h"
+#include "data.cpp"
 using namespace std;
 
 void addAnggota(anggotaNode *&head, int id, string nama, int umur, string jenisKelamin){
@@ -108,6 +106,7 @@ void menuAnggota(){
         } else if (pilihan == 3){
             viewAnggota();
             continue;
+
         } else if(pilihan != 0) {
             cout << "Pilihan tidak valid. Silakan coba lagi." << endl;
             continue;
@@ -116,4 +115,3 @@ void menuAnggota(){
             break;
         }
 }}
-#endif

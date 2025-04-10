@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "anggota.h"
+#include "anggota.cpp"
 using namespace std;
 
 int main(){
