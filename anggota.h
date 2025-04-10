@@ -1,6 +1,8 @@
+#ifndef ANGGOTA_H
+#define ANGGOTA_H
 #include <iostream>
 #include <string>
-#include "data.cpp"
+#include "data.h"
 using namespace std;
 
 void addAnggota(anggotaNode *&head, int id, string nama, int umur, string jenisKelamin){
@@ -153,3 +155,4 @@ void menuAnggota(){
             break;
         }
 }}
+#endif

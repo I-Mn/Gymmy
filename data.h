@@ -1,3 +1,5 @@
+#ifndef DATA_H
+#define DATA_H
 #include <string>
 using namespace std;
 
@@ -39,3 +41,4 @@ struct progresNode{
     int beratBadan;
     progresNode* next;
 };
+#endif
