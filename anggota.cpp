@@ -41,6 +41,21 @@ void viewAnggota(){
     }
 }
 
+void editAnggota(anggotaNode *&head, int id, string nama, int umur, string jenisKelamin){
+    anggotaNode *current;
+    current = head;
+    while (current != NULL && current->id != id){
+        current = current->next;
+    }
+    if (current == NULL){
+        cout << "Anggota tidak ditemukan"<<endl;
+        return;
+    }
+    current->nama = nama;
+    current->umur = umur;
+    current->jenisKelamin = jenisKelamin;
+}
+
 void hapusAnggota(anggotaNode *&head, int id){
     anggotaNode *current = head;
     anggotaNode *previous = NULL;
@@ -84,6 +99,26 @@ void fungsiHapusAnggota(){
     hapusAnggota(head, id);
 }
 
+void fungsiEditAnggota(){
+    int id;
+    string nama;
+    int umur;
+    string jenisKelamin;
+    cout << "Masukkan id anggota yang ingin diedit: ";
+    cin >> id;
+    cin.ignore();
+    cout << "Masukkan nama baru anggota: ";
+    getline (cin, nama);
+    cout << "Masukkan umur baru anggota: ";
+    cin >> umur;
+    cin.ignore();
+    cout << "Masukkan jenis kelamin baru anggota: ";
+    getline (cin, jenisKelamin);
+    editAnggota(head, id, nama, umur, jenisKelamin);
+    cout << "Data anggota dengan ID " << id << " telah diperbarui." << endl;
+
+}
+
 void menuAnggota(){
     int pilihan;
     pilihan = 0;
@@ -92,6 +127,7 @@ void menuAnggota(){
     cout << "1. Tambah Anggota" << endl;
     cout << "2. Hapus Anggota" << endl;
     cout << "3. Lihat Anggota" << endl;
+    cout << "4. Edit Anggota" << endl;
     cout << "0. Kembali" << endl;
     cout << "Pilih menu: ";
 
@@ -106,7 +142,9 @@ void menuAnggota(){
         } else if (pilihan == 3){
             viewAnggota();
             continue;
-
+        }else if (pilihan == 4){
+            fungsiEditAnggota();
+            continue;
         } else if(pilihan != 0) {
             cout << "Pilihan tidak valid. Silakan coba lagi." << endl;
             continue;
