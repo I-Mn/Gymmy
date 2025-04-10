@@ -1,5 +1,8 @@
 #include <iostream>
+#include <string>
+using namespace std;
 
-int main(){
-    std::cout << "test";
-}
+struct progress_latihan
+{
+    
+};
