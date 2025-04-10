@@ -6,8 +6,11 @@ using namespace std;
 struct anggotaNode{
     int id;
     string nama;
+    int telp;
     int umur;
+    string paket;
     string jenisKelamin;
+    string pelatih;
     anggotaNode* next;
 };
 anggotaNode *head;
