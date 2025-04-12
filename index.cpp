@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
 #include "anggota.h"
+#include "login.cpp"
 using namespace std;
 
 int main(){
+    menuLogin();
     loadFromDatabase();
     int menu;
     menu = 0;

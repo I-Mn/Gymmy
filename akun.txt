@@ -1,0 +1,3 @@
+ANGGOTA,aku,1234
+PELATIH,pelatih1,passpelatih
+ADMIN,admin,admin123
