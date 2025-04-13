@@ -64,6 +64,7 @@ void hapusAnggota(anggotaNode *&head, int id){
 }
 
 void fungsiTambahAnggota(){
+    initializeRandomSeed(); // Inisialisasi seed untuk random
     int id = countIdAnggota + 1;
     char passAnggotaArray[7]={};
     char newChar;

@@ -3,8 +3,13 @@
 #include <string>
 #include <fstream> // Untuk file handling
 #include <sstream> // Untuk stringstream
+#include <ctime> // Tambahkan header untuk time()
 using namespace std;
 #include <cstdlib>
+
+void initializeRandomSeed() {
+    srand(static_cast<unsigned int>(time(0))); // Inisialisasi seed dengan waktu saat ini
+}
 
 char randomLetter(){
     int random = rand() % 36;
@@ -15,7 +20,8 @@ char randomLetter(){
         randChar = 'A' + (random - 10); // Karakter huruf (A-Z)
     }
 
-    return randChar;}
+    return randChar;
+}
 
 struct anggotaNode{
     int id;
