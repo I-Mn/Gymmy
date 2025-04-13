@@ -4,6 +4,18 @@
 #include <fstream> // Untuk file handling
 #include <sstream> // Untuk stringstream
 using namespace std;
+#include <cstdlib>
+
+char randomLetter(){
+    int random = rand() % 36;
+    char randChar;
+    if (random >= 0 && random <= 9) {
+        randChar = '0' + random; // Karakter angka (0-9)
+    } else {
+        randChar = 'A' + (random - 10); // Karakter huruf (A-Z)
+    }
+
+    return randChar;}
 
 struct anggotaNode{
     int id;
@@ -13,6 +25,7 @@ struct anggotaNode{
     string paket;
     string jenisKelamin;
     string pelatih;
+    string pass;
     anggotaNode* next;
 };
 anggotaNode *headAnggota;
@@ -20,6 +33,15 @@ anggotaNode *tailAnggota;
 
 int countIdAnggota = 0;
 int countIdPelatih = 0;
+
+struct AkunNode {
+    string role;
+    string username;
+    string password;
+    AkunNode* next;
+};
+
+AkunNode* akunHead = nullptr;
 
 struct pelatihNode{
     int id;
@@ -47,7 +69,7 @@ struct progresNode{
     progresNode* next;
 };
 
-void loadAnggota(anggotaNode *&headAnggota, int id, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih){
+void loadAnggota(anggotaNode *&headAnggota, int id, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih, string passAnggota){
     anggotaNode *newMember = new anggotaNode;
     anggotaNode *current = headAnggota;
     if (headAnggota != NULL){
@@ -58,6 +80,7 @@ void loadAnggota(anggotaNode *&headAnggota, int id, string nama, string telp, in
         newMember->paket = paket;
         newMember->jenisKelamin = jenisKelamin;
         newMember->pelatih = pelatih;
+        newMember->pass = passAnggota;
         newMember->next = NULL;
         while (current->next != NULL){
             current = current->next;
@@ -72,6 +95,7 @@ void loadAnggota(anggotaNode *&headAnggota, int id, string nama, string telp, in
         newMember->jenisKelamin = jenisKelamin;
         newMember->pelatih = pelatih;
         newMember->next = headAnggota;
+        newMember->pass = passAnggota;
         headAnggota = newMember;
     }
 }
@@ -91,7 +115,8 @@ void saveToDatabase(){
              << currentAnggota->umur << ","
              << currentAnggota->paket << ","
              << currentAnggota->jenisKelamin << ","
-             << currentAnggota->pelatih <<","<<countIdAnggota<< endl;
+             << currentAnggota->pelatih <<","
+             <<currentAnggota->pass<<","<<countIdAnggota<< endl;
         currentAnggota = currentAnggota->next;
     }
 
@@ -111,7 +136,7 @@ void loadFromDatabase(){
         string type;
         getline(ss, type, ',');
         if (type == "ANGGOTA"){
-        string idStr, nama, telp, umurStr, paket, jenisKelamin, pelatih, countIDAnggotaSTR;
+        string idStr, nama, telp, umurStr, paket, jenisKelamin, pelatih, countIDAnggotaSTR, pass;
 
         getline(ss, idStr, ',');
         getline(ss, nama, ',');
@@ -120,13 +145,14 @@ void loadFromDatabase(){
         getline(ss, paket, ',');
         getline(ss, jenisKelamin, ',');
         getline(ss, pelatih, ',');
+        getline(ss, pass, ',');
         getline(ss, countIDAnggotaSTR, ',');
 
         int id = stoi(idStr);
         int umur = stoi(umurStr);
         countIdAnggota = stoi(countIDAnggotaSTR);
 
-        loadAnggota(headAnggota, id, nama, telp, umur, paket, jenisKelamin, pelatih);}
+        loadAnggota(headAnggota, id, nama, telp, umur, paket, jenisKelamin, pelatih, pass);}
     }
 
     file.close();

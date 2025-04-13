@@ -6,8 +6,8 @@
 #define head headAnggota
 using namespace std;
 
-void addAnggota(anggotaNode *&head, int id, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih){
-    loadAnggota(head, id, nama, telp, umur, paket, jenisKelamin, pelatih);
+void addAnggota(anggotaNode *&head, int id, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih, string passAnggota){
+    loadAnggota(head, id, nama, telp, umur, paket, jenisKelamin, pelatih, passAnggota);
     countIdAnggota++;
     saveToDatabase();
 };
@@ -65,6 +65,14 @@ void hapusAnggota(anggotaNode *&head, int id){
 
 void fungsiTambahAnggota(){
     int id = countIdAnggota + 1;
+    char passAnggotaArray[7]={};
+    char newChar;
+    for (int i = 0; i < 6; i++){
+        newChar = randomLetter();
+        passAnggotaArray[i] = newChar;
+    }
+    passAnggotaArray[6] = '\0'; // Menambahkan null terminator
+    string passAnggota = string (passAnggotaArray);
     string telp;
     int umur;
     string nama;
@@ -84,7 +92,7 @@ void fungsiTambahAnggota(){
     getline(cin, jenisKelamin);
     cout << "Masukkan nama pelatih anggota: ";
     getline(cin, pelatih);
-    addAnggota(head, id, nama, telp, umur, paket, jenisKelamin, pelatih);
+    addAnggota(head, id, nama, telp, umur, paket, jenisKelamin, pelatih, passAnggota);
     cout << "Anggota berhasil ditambahkan dengan ID: " << id << endl;
 }
 

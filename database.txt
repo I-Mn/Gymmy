@@ -1,1 +1,1 @@
-ANGGOTA,1,Aku,087654321,20,1,P,pelatih1
+ANGGOTA,1,Mizan,000,19,Premium,Laki,la,VP52M8,1
