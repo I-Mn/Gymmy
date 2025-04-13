@@ -1,19 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "data.h"
 #include "anggota.h"
 using namespace std;
 
-struct AkunNode {
-    string role;
-    string username;
-    string password;
-    AkunNode* next;
-};
-
-AkunNode* akunHead = nullptr;
-
-// Tambah node akun ke linked list
+// Fungsi tambahAkun dikomentari karena tidak lagi digunakan
+/*
 void tambahAkun(string role, string username, string password) {
     AkunNode* baru = new AkunNode{role, username, password, nullptr};
     if (!akunHead) {
@@ -24,8 +17,10 @@ void tambahAkun(string role, string username, string password) {
         temp->next = baru;
     }
 }
+*/
 
-// Load akun dari akun.txt
+// Fungsi loadAkun dikomentari karena tidak lagi digunakan
+/*
 void loadAkun() {
     ifstream file("akun.txt");
     string line;
@@ -35,7 +30,6 @@ void loadAkun() {
         stringstream ss(line);
         string role, username, password;
 
-        // Membaca role, username, dan password dari file
         if (getline(ss, role, ',') && getline(ss, username, ',') && getline(ss, password, ',')) {
             cout << "Role: " << role << ", Username: " << username << ", Password: " << password << endl;
 
@@ -44,25 +38,28 @@ void loadAkun() {
     }
     file.close();
 }
-
+*/
 
 // Cek login
 bool login(string role, string username, string password) {
-    AkunNode* temp = akunHead;
-    while (temp) {
-        if (temp->role == role && temp->username == username && temp->password == password) {
-            return true;
+    if (role == "ANGGOTA") {
+        anggotaNode* temp = headAnggota;
+        while (temp) {
+            if (to_string(temp->id) == username && temp->pass == password) {
+                return true;
+            }
+            temp = temp->next;
         }
-        temp = temp->next;
     }
+    // Placeholder for future roles (PELATIH, ADMIN)
     return false;
 }
 
 // Menu login interaktif
 void menuLogin() {
-    loadAkun();
+    loadFromDatabase(); // Load data anggota dari database
     int pilihan;
-    string role, uname, pass;
+    string role, username, pass;
 
     cout << "\n=== MENU LOGIN ===\n";
     cout << "1. Login Anggota\n";
@@ -82,17 +79,19 @@ void menuLogin() {
             return;
     }
 
-    cout << "Username: ";
-    cin >> uname;
+    cout << "Username (ID): ";
+    cin >> username;
     cout << "Password: ";
     cin >> pass;
 
-    if (login(role, uname, pass)) {
+    if (login(role, username, pass)) {
         cout << "Login berhasil sebagai " << role << "!\n";
         if (role == "ANGGOTA") {
             menuAnggota();
         } else if (role == "PELATIH") {
+            // Placeholder for pelatih menu
         } else if (role == "ADMIN") {
+            // Placeholder for admin menu
         }
     } else {
         cout << "Login gagal. Cek username/password.\n";
