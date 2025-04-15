@@ -45,7 +45,7 @@ bool login(string role, string username, string password) {
     if (role == "ANGGOTA") {
         anggotaNode* temp = headAnggota;
         while (temp) {
-            if (to_string(temp->id) == username && temp->pass == password) {
+            if (temp->username == username && temp->pass == password) {
                 return true;
             }
             temp = temp->next;
