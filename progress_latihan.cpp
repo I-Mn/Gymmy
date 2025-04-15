@@ -1,26 +1,12 @@
 #include <iostream>
 #include <string>
+#include "data.h" // Include data.h for shared structures and functions
 using namespace std;
-
-struct progress_latihan
-{
-    // nama pelatih
-    // tanggal
-    // nama anggota
-    string Jenis_Latihan;
-    string Jumlah_Set;
-    string Beban;
-    string Durasi;
-    string Skala_Latihan;
-    string Progress;
-    string Catatan;
-};
 
 progress_latihan **dataList = new progress_latihan *[100];
 int data_ke = 0;
 
-void tambah()
-{
+void tambah() {
     dataList[data_ke] = new progress_latihan;
 
     cout << "=== Tambah Progress Latihan ===" << endl;
@@ -42,71 +28,65 @@ void tambah()
     getline(cin, dataList[data_ke]->Catatan);
 
     data_ke++;
+    saveToDatabase(); // Save to database after adding
     cout << "Data berhasil ditambahkan.\n";
 }
 
-void edit()
-{
-    {
-        int index;
-        cout << "Mau edit data ke-berapa? ";
-        cin >> index;
+void edit() {
+    int index;
+    cout << "Mau edit data ke-berapa? ";
+    cin >> index;
 
-        if (index < 1 || index > data_ke)
-        {
-            cout << "Data tidak ditemukan\n";
-            return;
-        }
-
-        cout << "=== Edit Progress Latihan ===" << endl;
-
-        int i = index - 1;
-
-        cout << "\nData ke-" << i + 1 << ":\n";
-        cout << "Jenis Latihan    : ";
-        cin.ignore();
-        getline(cin, dataList[i]->Jenis_Latihan);
-        cout << "Jumlah Set       : ";
-        getline(cin, dataList[i]->Jumlah_Set);
-        cout << "Beban (kg)       : ";
-        getline(cin, dataList[i]->Beban);
-        cout << "Durasi (menit)   : ";
-        getline(cin, dataList[i]->Durasi);
-        cout << "Skala Latihan    : ";
-        getline(cin, dataList[i]->Skala_Latihan);
-        cout << "Progress         : ";
-        getline(cin, dataList[i]->Progress);
-        cout << "Catatan          : ";
-        getline(cin, dataList[i]->Catatan);
+    if (index < 1 || index > data_ke) {
+        cout << "Data tidak ditemukan\n";
+        return;
     }
 
+    cout << "=== Edit Progress Latihan ===" << endl;
+
+    int i = index - 1;
+
+    cout << "\nData ke-" << i + 1 << ":\n";
+    cout << "Jenis Latihan    : ";
+    cin.ignore();
+    getline(cin, dataList[i]->Jenis_Latihan);
+    cout << "Jumlah Set       : ";
+    getline(cin, dataList[i]->Jumlah_Set);
+    cout << "Beban (kg)       : ";
+    getline(cin, dataList[i]->Beban);
+    cout << "Durasi (menit)   : ";
+    getline(cin, dataList[i]->Durasi);
+    cout << "Skala Latihan    : ";
+    getline(cin, dataList[i]->Skala_Latihan);
+    cout << "Progress         : ";
+    getline(cin, dataList[i]->Progress);
+    cout << "Catatan          : ";
+    getline(cin, dataList[i]->Catatan);
+
+    saveToDatabase(); // Save to database after editing
     cout << "Data berhasil diedit.\n";
 }
 
-void hapus()
-{
+void hapus() {
     int index;
     cout << "Mau hapus data keberapa? ";
     cin >> index;
-    if (index < 1 || index > data_ke)
-    {
+    if (index < 1 || index > data_ke) {
         cout << "Data tidak ditemukan.\n";
         return;
     }
 
-    for (int i = index - 1; i < data_ke - 1; ++i)
-    {
+    for (int i = index - 1; i < data_ke - 1; ++i) {
         dataList[i] = dataList[i + 1];
     }
 
     data_ke--;
+    saveToDatabase(); // Save to database after deleting
     cout << "Data berhasil dihapus.\n";
 }
 
-void tampil()
-{
-    for (int i = 0; i < data_ke; ++i)
-    {
+void tampil() {
+    for (int i = 0; i < data_ke; ++i) {
         cout << "\nData ke-" << i + 1 << ":\n";
         cout << "\n=== Data Progress Latihan ===\n";
         cout << "Jenis Latihan    : " << dataList[i]->Jenis_Latihan << endl;
@@ -119,12 +99,11 @@ void tampil()
     }
 }
 
-int main()
-{
+int main() {
+    loadFromDatabase(); // Load data from database at the start
     int pilihan;
 
-    while (true)
-    {
+    while (true) {
         cout << "\n=== MENU ===\n";
         cout << "1. Tambah Data\n";
         cout << "2. Edit Data\n";
@@ -142,13 +121,10 @@ int main()
             tampil();
         else if (pilihan == 4)
             hapus();
-        else if (pilihan == 5)
-        {
+        else if (pilihan == 5) {
             cout << "Keluar\n";
             break;
-        }
-        else
-        {
+        } else {
             cout << "Pilih angka 1-5\n";
         }
     }
