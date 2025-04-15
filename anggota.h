@@ -19,7 +19,13 @@ void viewAnggota(){
         return;
     }
     while (current != NULL){
-        cout << "ID: "<<current->id<<"\nNama: "<<current->nama<<"\nNo. Telp: "<<current->telp<<"\nUmur: "<<current->umur<<"\nPaket: "<<current->paket<<"\nJenis Kelamin: "<<current->jenisKelamin<<"\nPelatih: "<<current->pelatih<<endl<<endl;
+        cout << "ID: "<<current->id<<"\nNama: "
+        <<current->nama<<"\nNo. Telp: "
+        <<current->telp<<"\nUmur: "
+        <<current->umur<<"\nPaket: "
+        <<current->paket<<"\nJenis Kelamin: "
+        <<current->jenisKelamin<<"\nPelatih: "
+        <<current->pelatih<<endl<<endl;
         current = current->next;
     }
 }
