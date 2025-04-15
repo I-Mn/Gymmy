@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-const int MAX = 1000;
+const int MAX = 100;
 
 struct pelatih{
     string nama;
@@ -28,7 +28,8 @@ void lihatpelatih(){
         cout << "Nama : " << p -> nama << endl;
         cout << "Spesialis : " << p -> spesialis << endl;
         cout << "Umur : " << p -> umur << endl;
-        cout << "Jenis : " << p -> jeniskelamin << endl;
+        cout << "Jenis Kelamin : " << p -> jeniskelamin << endl;
+        cout << "No. Telepon : " << p-> notelp << endl;
     }
 }
 
@@ -42,11 +43,13 @@ void tambahpelatih(){
 
     pelatih* p = &datapelatih[jumlahpelatih];
 
-    cout << "Nama : "; cin.ignore(); getline(cin, p -> nama);
-    cout << "Spesialis : "; cin.ignore(); getline(cin, p -> spesialis);
-    cout << "Umur : "; cin >> p -> umur; cin.ignore();
-    cout << "Jenis Kelamin : "; cin.ignore(); getline(cin, p -> jeniskelamin);
-    cout << "No. Telepon : "; cin.ignore(); getline(cin, p -> notelp);
+    cin.ignore();
+    cout << "Nama : "; getline(cin, p -> nama);
+    cout << "Spesialis : "; getline(cin, p -> spesialis);
+    cout << "Umur : "; cin >> p -> umur; 
+    cin.ignore();
+    cout << "Jenis Kelamin : "; getline(cin, p -> jeniskelamin);
+    cout << "No. Telepon : "; getline(cin, p -> notelp);
 
     jumlahpelatih++;
     cout << "Pelatih berhasil ditambahkan." << endl;
@@ -72,7 +75,8 @@ void editpelatih(){
             return;
         }
     }
-    cout << "Pelatih tidak ditemukan.";
+    cout << "Pelatih tidak ditemukan." ;
+    cout << "\n";
 }
 
 //Menghapus Pelatih
