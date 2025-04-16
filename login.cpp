@@ -54,7 +54,7 @@ bool login(string role, string username, string password) {
     }
     else if (role == "PELATIH") {
         for (int i = 0; i < jumlahpelatih; i++) {
-            if (datapelatih[i].nama == username && datapelatih[i].notelp == password) {
+            if (datapelatih[i].username == username && datapelatih[i].password == password) {
                 return true;
             }
         }

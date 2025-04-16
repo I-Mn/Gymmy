@@ -8,6 +8,8 @@ void tambah() {
 
     cout << "=== Tambah Progress Latihan ===" << endl;
 
+    cout << "Username anggota  : ";
+    getline(cin, dataList[data_ke]->username);
     cout << "Jenis Latihan    : ";
     cin.ignore();
     getline(cin, dataList[data_ke]->Jenis_Latihan);
@@ -30,35 +32,48 @@ void tambah() {
 }
 
 void edit() {
-    int index;
-    cout << "Mau edit data ke-berapa? ";
-    cin >> index;
+    if (sesiRole != "PELATIH") {
+        cout << "Hanya pelatih yang dapat mengedit data progress.\n";
+        return;
+    }
 
-    if (index < 1 || index > data_ke) {
-        cout << "Data tidak ditemukan\n";
+    string usernameToEdit, jenisLatihanToEdit;
+    cout << "Masukkan username anggota yang ingin diedit: ";
+    cin >> usernameToEdit;
+    cin.ignore();
+    cout << "Masukkan jenis latihan yang ingin diedit: ";
+    getline(cin, jenisLatihanToEdit);
+
+    int index = -1;
+    for (int i = 0; i < data_ke; ++i) {
+        if (dataList[i]->username == usernameToEdit && dataList[i]->Jenis_Latihan == jenisLatihanToEdit) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index == -1) {
+        cout << "Data progress untuk username dan jenis latihan tersebut tidak ditemukan.\n";
         return;
     }
 
     cout << "=== Edit Progress Latihan ===" << endl;
 
-    int i = index - 1;
-
-    cout << "\nData ke-" << i + 1 << ":\n";
+    cout << "\nData untuk username: " << usernameToEdit << " dan jenis latihan: " << jenisLatihanToEdit << "\n";
     cout << "Jenis Latihan    : ";
-    cin.ignore();
-    getline(cin, dataList[i]->Jenis_Latihan);
+    getline(cin, dataList[index]->Jenis_Latihan);
     cout << "Jumlah Set       : ";
-    getline(cin, dataList[i]->Jumlah_Set);
+    getline(cin, dataList[index]->Jumlah_Set);
     cout << "Beban (kg)       : ";
-    getline(cin, dataList[i]->Beban);
+    getline(cin, dataList[index]->Beban);
     cout << "Durasi (menit)   : ";
-    getline(cin, dataList[i]->Durasi);
+    getline(cin, dataList[index]->Durasi);
     cout << "Skala Latihan    : ";
-    getline(cin, dataList[i]->Skala_Latihan);
+    getline(cin, dataList[index]->Skala_Latihan);
     cout << "Progress         : ";
-    getline(cin, dataList[i]->Progress);
+    getline(cin, dataList[index]->Progress);
     cout << "Catatan          : ";
-    getline(cin, dataList[i]->Catatan);
+    getline(cin, dataList[index]->Catatan);
 
     saveToDatabase(); // Save to database after editing
     cout << "Data berhasil diedit.\n";
