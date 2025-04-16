@@ -87,7 +87,7 @@ int main(){
             cout << "GYMMY" << endl;
             cout << "--------------------" << endl;
             cout << "Main Menu" << endl;
-            cout << "1. Lihat Progress Latihan" << endl; 
+            cout << "1. Menu Progress Latihan" << endl; 
             cout << "0. Keluar" << endl;
             cout << "Pilih menu: ";
             cin >> menu;

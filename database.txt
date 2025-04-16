@@ -1,3 +1,4 @@
 ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
 PROGRESS,Mizan,ngkat Beban,10,10,10,Ringan,Bagus,Nice
 PELATIH,Joko,0999999,23,Laki laki,Bulu Tangkis,Joko,VP52M8
+JADWAL,Mizan,,1,Senin,10,10,2010,Lari,20,Joko

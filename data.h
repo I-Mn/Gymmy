@@ -153,21 +153,19 @@ void saveToDatabase() {
              << currentAnggota->pass << ","
              << currentAnggota->username << endl;
 
-        // Save progress data specific to this anggotaNode
-        for (int i = 0; i < data_ke; ++i) {{
-                file << "PROGRESS," << dataList[i]->username << ","
-                     << dataList[i]->Jenis_Latihan << ","
-                     << dataList[i]->Jumlah_Set << ","
-                     << dataList[i]->Beban << ","
-                     << dataList[i]->Durasi << ","
-                     << dataList[i]->Skala_Latihan << ","
-                     << dataList[i]->Progress << ","
-                     << dataList[i]->Catatan << endl;
-            }
-        }
-
         currentAnggota = currentAnggota->next;
     }
+    for (int i = 0; i < data_ke; ++i) {{
+        file << "PROGRESS," << dataList[i]->username << ","
+             << dataList[i]->Jenis_Latihan << ","
+             << dataList[i]->Jumlah_Set << ","
+             << dataList[i]->Beban << ","
+             << dataList[i]->Durasi << ","
+             << dataList[i]->Skala_Latihan << ","
+             << dataList[i]->Progress << ","
+             << dataList[i]->Catatan << endl;
+    }
+}
 
     // Save pelatih data
     for (int i = 0; i < jumlahpelatih; i++) {
@@ -226,15 +224,18 @@ bool isProgressExist(const string& username, const string& jenisLatihan) {
     return false;
 }
 
-void loadFromDatabase(){
+void loadFromDatabase() {
     ifstream file("database.txt");
-    if (!file.is_open()){
+    if (!file.is_open()) {
         cout << "Gagal membuka file database.txt" << endl;
         return;
     }
 
+    // Bersihkan daftarJadwal sebelum memuat data baru
+    daftarJadwal.clear();
+
     string line;
-    while (getline(file, line)){
+    while (getline(file, line)) {
         stringstream ss(line);
         string type;
         getline(ss, type, ',');
@@ -304,6 +305,7 @@ void loadFromDatabase(){
             }
         } else if (type == "JADWAL") {
             JadwalLatihan jadwalBaru;
+            getline(ss, jadwalBaru.username, ','); // Tambahkan parsing username
             getline(ss, jadwalBaru.NamaAnggota, ',');
             ss >> jadwalBaru.JumlahAnggota;
             ss.ignore(1, ',');

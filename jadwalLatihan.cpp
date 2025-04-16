@@ -7,48 +7,51 @@
 
 using namespace std;
 
-void bacaData() {
-    ifstream file("database.txt");
-    string baris;
+// void bacaData() {
+//     ifstream file("database.txt");
+//     string baris;
 
-    while (getline(file, baris)) {
-        stringstream ss(baris);
-        string tipe, nama;
-        getline(ss, tipe, ',');
-        getline(ss, nama);
+//     while (getline(file, baris)) {
+//         stringstream ss(baris);
+//         string tipe, nama;
+//         getline(ss, tipe, ',');
+//         getline(ss, nama);
 
-        if (tipe == "ANGGOTA") {
-            daftarAnggota.push_back(nama);
-        } else if (tipe == "PELATIH") {
-            daftarPelatih.push_back(nama);
-        }
-    }
-    file.close();
-}
+//         if (tipe == "ANGGOTA") {
+//             daftarAnggota.push_back(nama);
+//         } else if (tipe == "PELATIH") {
+//             daftarPelatih.push_back(nama);
+//         }
+//     }
+//     file.close();
+// }
 
 void inputJadwal() {
     JadwalLatihan jadwalBaru; // buat jadwal baru
 
     int pilih;
 
-    cout << "\nDaftar Anggota:\n";
-    for (int i = 0; i < daftarAnggota.size(); ++i) {
-        cout << i + 1 << ". " << daftarAnggota[i] << endl;
-    }
-    cout << "Pilih nomor anggota: ";
-    cin >> pilih;
-    jadwalBaru.NamaAnggota = daftarAnggota[pilih - 1];
+    // cout << "\nDaftar Anggota:\n";
+    // for (int i = 0; i < daftarAnggota.size(); ++i) {
+    //     cout << i + 1 << ". " << daftarAnggota[i] << endl;
+    // }
+    // cout << "Pilih nomor anggota: ";
+    // cin >> pilih;
+    // jadwalBaru.NamaAnggota = daftarAnggota[pilih - 1];
 
     cout << "Masukkan Username Anggota: ";
     cin >> jadwalBaru.username; // tambahkan input untuk username
 
-    cout << "\nDaftar Pelatih:\n";
-    for (int i = 0; i < daftarPelatih.size(); ++i) {
-        cout << i + 1 << ". " << daftarPelatih[i] << endl;
-    }
-    cout << "Pilih nomor pelatih: ";
-    cin >> pilih;
-    jadwalBaru.Pelatih = daftarPelatih[pilih - 1];
+    // cout << "\nDaftar Pelatih:\n";
+    // for (int i = 0; i < daftarPelatih.size(); ++i) {
+    //     cout << i + 1 << ". " << daftarPelatih[i] << endl;
+    // }
+    // cout << "Pilih nomor pelatih: ";
+    // cin >> pilih;
+    // jadwalBaru.Pelatih = daftarPelatih[pilih - 1];
+    cout << "Masukkan Nama Pelatih: ";
+    cin.ignore(); // bersihkan buffer
+    getline(cin, jadwalBaru.Pelatih); // tambahkan input untuk pelatih
 
     cout << "Jumlah Anggota: ";
     cin >> jadwalBaru.JumlahAnggota;
@@ -73,24 +76,12 @@ void inputJadwal() {
 
 void tampilkanJadwal() {
     cout << "\nData Jadwal Latihan:\n";
-    if (sesiRole == "ANGGOTA") {
-        for (const auto& jadwal : daftarJadwal) {
-            if (sesiUser == jadwal.username) { // Akses username dari elemen jadwal
-                cout << "Nama: " << jadwal.NamaAnggota << endl;
-                cout << "Username: " << jadwal.username << endl;
-                cout << "Jumlah: " << jadwal.JumlahAnggota << endl;
-                cout << "Tanggal: " << jadwal.HariLatihan.hari << ", "
-                     << jadwal.HariLatihan.tanggal << "-" << jadwal.HariLatihan.bulan << "-" << jadwal.HariLatihan.tahun << endl;
-                cout << "Jenis Latihan: " << jadwal.JenisLatihan << endl;
-                cout << "Durasi: " << jadwal.Durasi << " menit" << endl;
-                cout << "Pelatih: " << jadwal.Pelatih << endl;
-                cout << "--------------------------\n";
-            }
-        }
-    }
     for (const auto& jadwal : daftarJadwal) {
+        if (sesiRole == "ANGGOTA" && sesiUser != jadwal.username) {
+            continue; // Hanya tampilkan jadwal untuk user yang sesuai
+        }
         cout << "Nama: " << jadwal.NamaAnggota << endl;
-        cout << "Username: " << jadwal.username << endl; // tampilkan username
+        cout << "Username: " << jadwal.username << endl;
         cout << "Jumlah: " << jadwal.JumlahAnggota << endl;
         cout << "Tanggal: " << jadwal.HariLatihan.hari << ", "
              << jadwal.HariLatihan.tanggal << "-" << jadwal.HariLatihan.bulan << "-" << jadwal.HariLatihan.tahun << endl;
@@ -171,11 +162,10 @@ void hapusJadwal() {
 }
 
 void menuJadwal() {
-    int pilihan;
-
-    bacaData();
+    int pilihan=0;
 
     do {
+        pilihan = 0;
         cout << "\n=== MENU UTAMA ===\n";
         cout << "1. Input Jadwal Latihan\n";
         cout << "2. Tampilkan Jadwal\n";
@@ -184,6 +174,9 @@ void menuJadwal() {
         cout << "5. Keluar\n";
         cout << "Pilih: ";
         cin >> pilihan;
+
+        // Tambahkan cin.ignore() untuk membersihkan buffer
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         switch (pilihan) {
             case 1:
