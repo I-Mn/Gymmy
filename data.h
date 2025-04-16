@@ -26,6 +26,9 @@ char randomLetter(){
 //Data Progress
 struct progress_latihan {
     string username; // Associate progress data with a specific user
+    string Tanggal; // New field
+    string Nama_Pelatih; // New field
+    string Nama_Anggota; // New field
     string Jenis_Latihan;
     string Jumlah_Set;
     string Beban;
