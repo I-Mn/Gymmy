@@ -23,6 +23,7 @@ char randomLetter(){
     return randChar;
 }
 
+//Data Progress
 struct progress_latihan {
     string username; // Associate progress data with a specific user
     string Jenis_Latihan;
@@ -37,6 +38,7 @@ struct progress_latihan {
 progress_latihan **dataList = new progress_latihan *[100];
 int data_ke = 0;
 
+//Data Anggota
 struct anggotaNode {
     string nama;
     string telp;
@@ -53,6 +55,8 @@ anggotaNode *headAnggota;
 anggotaNode *tailAnggota;
 
 int countIdAnggota = 0;
+
+//Data Pelatih
 int countIdPelatih = 0;
 
 const int MAX = 100;
@@ -70,8 +74,32 @@ struct pelatih {
 pelatih datapelatih[MAX];
 int jumlahpelatih = 0;
 
+
+// Data Login
 string sesiRole;
 string sesiUser;
+
+// Data Jadwal
+struct Tanggal {
+    string hari;
+    int bulan;
+    int tahun;
+    int tanggal;
+};
+
+struct JadwalLatihan {
+    string username; // tambahkan field username
+    string NamaAnggota;
+    int JumlahAnggota;
+    Tanggal HariLatihan;
+    string JenisLatihan;
+    int Durasi;
+    string Pelatih;
+};
+
+vector<string> daftarAnggota;
+vector<string> daftarPelatih;
+vector<JadwalLatihan> daftarJadwal; // untuk menyimpan semua jadwal
 
 void loadAnggota(anggotaNode *&headAnggota, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih, string passAnggota, string username){
     anggotaNode *newMember = new anggotaNode;
@@ -152,6 +180,20 @@ void saveToDatabase(){
              << datapelatih[i].password << endl;
     }
 
+    // Save jadwal data
+    for (const auto& jadwal : daftarJadwal) {
+        file << "JADWAL," << jadwal.username << "," 
+             << jadwal.NamaAnggota << ","
+             << jadwal.JumlahAnggota << ","
+             << jadwal.HariLatihan.hari << ","
+             << jadwal.HariLatihan.tanggal << ","
+             << jadwal.HariLatihan.bulan << ","
+             << jadwal.HariLatihan.tahun << ","
+             << jadwal.JenisLatihan << ","
+             << jadwal.Durasi << ","
+             << jadwal.Pelatih << endl;
+    }
+
     file.close();
 }
 
@@ -226,6 +268,24 @@ void loadFromDatabase(){
             p->spesialis = spesialis;
             p->username = username;
             p->password = password;
+        } else if (type == "JADWAL") {
+            JadwalLatihan jadwalBaru;
+            getline(ss, jadwalBaru.NamaAnggota, ',');
+            ss >> jadwalBaru.JumlahAnggota;
+            ss.ignore(1, ',');
+            getline(ss, jadwalBaru.HariLatihan.hari, ',');
+            ss >> jadwalBaru.HariLatihan.tanggal;
+            ss.ignore(1, ',');
+            ss >> jadwalBaru.HariLatihan.bulan;
+            ss.ignore(1, ',');
+            ss >> jadwalBaru.HariLatihan.tahun;
+            ss.ignore(1, ',');
+            getline(ss, jadwalBaru.JenisLatihan, ',');
+            ss >> jadwalBaru.Durasi;
+            ss.ignore(1, ',');
+            getline(ss, jadwalBaru.Pelatih, ',');
+
+            daftarJadwal.push_back(jadwalBaru);
         }
     }
 
