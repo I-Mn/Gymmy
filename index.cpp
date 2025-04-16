@@ -78,7 +78,7 @@ int main(){
             if (menu == 1){
                 menuProgress();
             }
-            
+
             }
         }
     cout << "Terima kasih telah menggunakan Gymmy!" << endl;
