@@ -52,6 +52,7 @@ void tambahpelatih(){
     p->username = username;
 
     // Generate random password
+    initializeRandomSeed();
     char passPelatihArray[7] = {};
     for (int i = 0; i < 6; i++) {
         passPelatihArray[i] = randomLetter();
@@ -143,9 +144,4 @@ void menupelatih(){
             cout << "Pilihan tidak valid. Silahkan coba lagi.";
         }
     }
-}
-
-int main(){
-    menupelatih();
-    return 0;
 }
