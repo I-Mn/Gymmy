@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include "data.h"
 
 using namespace std;
 
@@ -110,6 +111,7 @@ void menuUtama() {
         switch (pilihan) {
             case 1:
                 inputJadwal();
+                saveToDatabase();
                 break;
             case 2:
                 tampilkanJadwal();

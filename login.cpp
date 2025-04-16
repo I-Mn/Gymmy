@@ -56,7 +56,7 @@ bool login(string role, string username, string password) {
 }
 
 // Menu login interaktif
-void menuLogin() {
+string menuLogin() {
     loadFromDatabase(); // Load data anggota dari database
     int pilihan;
     string role, username, pass;
@@ -70,9 +70,9 @@ void menuLogin() {
     cin >> pilihan;
 
     switch (pilihan) {
-        case 1: role = "ANGGOTA"; break;
-        case 2: role = "PELATIH"; break;
-        case 3: role = "ADMIN"; break;
+        case 1: role = "ANGGOTA"; return role;
+        case 2: role = "PELATIH"; return role;
+        case 3: role = "ADMIN"; return role;
         case 0: return;
         default:
             cout << "Pilihan tidak valid!\n";

@@ -3,9 +3,6 @@
 #include "data.h" // Include data.h for shared structures and functions
 using namespace std;
 
-progress_latihan **dataList = new progress_latihan *[100];
-int data_ke = 0;
-
 void tambah() {
     dataList[data_ke] = new progress_latihan;
 

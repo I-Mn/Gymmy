@@ -1,18 +1,6 @@
 #include <iostream>
 using namespace std;
-
-const int MAX = 100;
-
-struct pelatih{
-    string nama;
-    string notelp;
-    int umur;
-    string jeniskelamin;
-    string spesialis;
-};
-
-pelatih datapelatih[MAX];
-int jumlahpelatih = 0;
+#include "data.h"
 
 //Melihat Pelatih
 void lihatpelatih(){
@@ -53,6 +41,7 @@ void tambahpelatih(){
 
     jumlahpelatih++;
     cout << "Pelatih berhasil ditambahkan." << endl;
+    saveToDatabase();
 }
 
 //Mengedit Pelatih
@@ -72,6 +61,7 @@ void editpelatih(){
             cout << "No. Telepon Baru : "; getline(cin, p -> notelp);
 
             cout << "Data berhasil diedit." << endl;
+            saveToDatabase();
             return;
         }
     }
@@ -97,6 +87,7 @@ void hapuspelatih()
             }
             jumlahpelatih--;
             cout << "Pelatih berhasil dihapus." << endl;
+            saveToDatabase();
             return;
         }
     }
