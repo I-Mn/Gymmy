@@ -23,8 +23,12 @@ char randomLetter(){
     return randChar;
 }
 
-struct progress_latihan {
-    string username; // Associate progress data with a specific user
+struct progress_latihan
+{
+    string username;
+    string Tanggal;
+    string Nama_Pelatih;
+    string Nama_Anggota;
     string Jenis_Latihan;
     string Jumlah_Set;
     string Beban;
