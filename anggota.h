@@ -6,30 +6,54 @@
 #define head headAnggota
 using namespace std;
 
-void addAnggota(anggotaNode *&head, int id, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih){
-    loadAnggota(head, id, nama, telp, umur, paket, jenisKelamin, pelatih);
+void addAnggota(anggotaNode *&head, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih, string passAnggota) {
+    string baseUsername = nama;
+    string username = baseUsername;
+    int counter = 1;
+
+    // Ensure the username is unique
+    anggotaNode *current = head;
+    while (current != NULL) {
+        if (current->username == username) {
+            username = baseUsername + to_string(counter);
+            counter++;
+            current = head; // Restart the check
+        } else {
+            current = current->next;
+        }
+    }
+
+    loadAnggota(head, nama, telp, umur, paket, jenisKelamin, pelatih, passAnggota, username);
     countIdAnggota++;
     saveToDatabase();
-};
+}
 
-void viewAnggota(){
+void viewAnggota() {
     anggotaNode *current = head;
-    if (head == NULL){
+    if (head == NULL) {
         cout << "Tidak ada anggota yang terdaftar." << endl;
         return;
     }
-    while (current != NULL){
-        cout << "ID: "<<current->id<<"\nNama: "<<current->nama<<"\nNo. Telp: "<<current->telp<<"\nUmur: "<<current->umur<<"\nPaket: "<<current->paket<<"\nJenis Kelamin: "<<current->jenisKelamin<<"\nPelatih: "<<current->pelatih<<endl<<endl;
+    while (current != NULL) {
+        cout << "\nNama: "
+             << current->nama << "\nNo. Telp: "
+             << current->telp << "\nUmur: "
+             << current->umur << "\nPaket: "
+             << current->paket << "\nJenis Kelamin: "
+             << current->jenisKelamin << "\nPelatih: "
+             << current->pelatih << "\nUsername: "
+             << current->username << "\nPassword: "
+             << current->pass << endl << endl;
         current = current->next;
     }
 }
 
-void editAnggota(anggotaNode *&head, int id, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih){
+void editAnggota(anggotaNode *&head, string username, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih) {
     anggotaNode *current = head;
-    while (current != NULL && current->id != id){
+    while (current != NULL && current->username != username) {
         current = current->next;
     }
-    if (current == NULL){
+    if (current == NULL) {
         cout << "Anggota tidak ditemukan" << endl;
         return;
     }
@@ -42,29 +66,37 @@ void editAnggota(anggotaNode *&head, int id, string nama, string telp, int umur,
     saveToDatabase();
 }
 
-void hapusAnggota(anggotaNode *&head, int id){
+void hapusAnggota(anggotaNode *&head, string username) {
     anggotaNode *current = head;
     anggotaNode *previous = NULL;
-    while (current != NULL && current->id != id){
+    while (current != NULL && current->username != username) {
         previous = current;
         current = current->next;
     }
-    if (current == NULL){
-        cout << "Anggota dengan ID " << id << " tidak ditemukan." << endl;
+    if (current == NULL) {
+        cout << "Anggota dengan username " << username << " tidak ditemukan." << endl;
         return;
     }
-    if (previous == NULL){
+    if (previous == NULL) {
         head = current->next;
     } else {
         previous->next = current->next;
     }
     delete current;
-    cout << "Anggota dengan ID " << id << " telah dihapus." << endl;
+    cout << "Anggota dengan username " << username << " telah dihapus." << endl;
     saveToDatabase();
 }
 
-void fungsiTambahAnggota(){
-    int id = countIdAnggota + 1;
+void fungsiTambahAnggota() {
+    initializeRandomSeed(); // Inisialisasi seed untuk random
+    char passAnggotaArray[7] = {};
+    char newChar;
+    for (int i = 0; i < 6; i++) {
+        newChar = randomLetter();
+        passAnggotaArray[i] = newChar;
+    }
+    passAnggotaArray[6] = '\0'; // Menambahkan null terminator
+    string passAnggota = string(passAnggotaArray);
     string telp;
     int umur;
     string nama;
@@ -84,27 +116,27 @@ void fungsiTambahAnggota(){
     getline(cin, jenisKelamin);
     cout << "Masukkan nama pelatih anggota: ";
     getline(cin, pelatih);
-    addAnggota(head, id, nama, telp, umur, paket, jenisKelamin, pelatih);
-    cout << "Anggota berhasil ditambahkan dengan ID: " << id << endl;
+    addAnggota(head, nama, telp, umur, paket, jenisKelamin, pelatih, passAnggota);
+    cout << "Anggota berhasil ditambahkan dengan username: " << nama << endl;
 }
 
-void fungsiHapusAnggota(){
-    int id;
-    cout << "Masukkan ID anggota yang ingin dihapus: ";
-    cin >> id;
-    hapusAnggota(head, id);
+void fungsiHapusAnggota() {
+    string username;
+    cout << "Masukkan username anggota yang ingin dihapus: ";
+    cin >> username;
+    hapusAnggota(head, username);
 }
 
-void fungsiEditAnggota(){
-    int id;
+void fungsiEditAnggota() {
+    string username;
     string nama;
     string telp;
     int umur;
     string paket;
     string jenisKelamin;
     string pelatih;
-    cout << "Masukkan id anggota yang ingin diedit: ";
-    cin >> id;
+    cout << "Masukkan username anggota yang ingin diedit: ";
+    cin >> username;
     cin.ignore();
     cout << "Masukkan nama baru anggota: ";
     getline(cin, nama);
@@ -119,14 +151,14 @@ void fungsiEditAnggota(){
     getline(cin, jenisKelamin);
     cout << "Masukkan nama pelatih baru anggota: ";
     getline(cin, pelatih);
-    editAnggota(head, id, nama, telp, umur, paket, jenisKelamin, pelatih);
-    cout << "Data anggota dengan ID " << id << " telah diperbarui." << endl;
+    editAnggota(head, username, nama, telp, umur, paket, jenisKelamin, pelatih);
+    cout << "Data anggota dengan username " << username << " telah diperbarui." << endl;
 }
 
-void menuAnggota(){
+void menuAnggota() {
     int pilihan;
     pilihan = 0;
-    while (true){
+    while (true) {
         cout << "\nMenu Manajemen Anggota:" << endl;
         cout << "1. Tambah Anggota" << endl;
         cout << "2. Hapus Anggota" << endl;
@@ -137,16 +169,16 @@ void menuAnggota(){
 
         cin >> pilihan;
         cin.ignore();
-        if (pilihan == 1){
+        if (pilihan == 1) {
             fungsiTambahAnggota();
             continue;
-        } else if (pilihan == 2){
+        } else if (pilihan == 2) {
             fungsiHapusAnggota();
             continue;
-        } else if (pilihan == 3){
+        } else if (pilihan == 3) {
             viewAnggota();
             continue;
-        } else if (pilihan == 4){
+        } else if (pilihan == 4) {
             fungsiEditAnggota();
             continue;
         } else if (pilihan != 0) {
