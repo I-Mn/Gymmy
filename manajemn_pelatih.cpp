@@ -1,18 +1,6 @@
 #include <iostream>
 using namespace std;
-
-const int MAX = 100;
-
-struct pelatih{
-    string nama;
-    string notelp;
-    int umur;
-    string jeniskelamin;
-    string spesialis;
-};
-
-pelatih datapelatih[MAX];
-int jumlahpelatih = 0;
+#include "data.h"
 
 //Melihat Pelatih
 void lihatpelatih(){
@@ -35,8 +23,7 @@ void lihatpelatih(){
 
 //Menambah Pelatih
 void tambahpelatih(){
-    if (jumlahpelatih >= MAX)
-    {
+    if (jumlahpelatih >= MAX) {
         cout << "Data Penuh." << endl;
         return;
     }
@@ -44,15 +31,38 @@ void tambahpelatih(){
     pelatih* p = &datapelatih[jumlahpelatih];
 
     cin.ignore();
-    cout << "Nama : "; getline(cin, p -> nama);
-    cout << "Spesialis : "; getline(cin, p -> spesialis);
-    cout << "Umur : "; cin >> p -> umur; 
+    cout << "Nama : "; getline(cin, p->nama);
+    cout << "Spesialis : "; getline(cin, p->spesialis);
+    cout << "Umur : "; cin >> p->umur; 
     cin.ignore();
-    cout << "Jenis Kelamin : "; getline(cin, p -> jeniskelamin);
-    cout << "No. Telepon : "; getline(cin, p -> notelp);
+    cout << "Jenis Kelamin : "; getline(cin, p->jeniskelamin);
+    cout << "No. Telepon : "; getline(cin, p->notelp);
+
+    // Generate unique username
+    string baseUsername = p->nama;
+    string username = baseUsername;
+    int counter = 1;
+    for (int i = 0; i < jumlahpelatih; i++) {
+        if (datapelatih[i].username == username) {
+            username = baseUsername + to_string(counter);
+            counter++;
+            i = -1; // Restart the check
+        }
+    }
+    p->username = username;
+
+    // Generate random password
+    char passPelatihArray[7] = {};
+    for (int i = 0; i < 6; i++) {
+        passPelatihArray[i] = randomLetter();
+    }
+    passPelatihArray[6] = '\0';
+    p->password = string(passPelatihArray);
 
     jumlahpelatih++;
-    cout << "Pelatih berhasil ditambahkan." << endl;
+    cout << "Pelatih berhasil ditambahkan dengan username: " << p->username 
+         << " dan password: " << p->password << endl;
+    saveToDatabase();
 }
 
 //Mengedit Pelatih
@@ -72,6 +82,7 @@ void editpelatih(){
             cout << "No. Telepon Baru : "; getline(cin, p -> notelp);
 
             cout << "Data berhasil diedit." << endl;
+            saveToDatabase();
             return;
         }
     }
@@ -97,6 +108,7 @@ void hapuspelatih()
             }
             jumlahpelatih--;
             cout << "Pelatih berhasil dihapus." << endl;
+            saveToDatabase();
             return;
         }
     }
