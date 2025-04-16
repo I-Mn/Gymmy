@@ -9,10 +9,10 @@ void tambah() {
     cout << "=== Tambah Progress Latihan ===" << endl;
 
     cout << "Username anggota  : ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Bersihkan buffer
     getline(cin, dataList[data_ke]->username);
     cout << "Jenis Latihan    : ";
-    cin.ignore();
-    getline(cin, dataList[data_ke]->Jenis_Latihan);
+    getline(cin, dataList[data_ke]->Jenis_Latihan); // Tidak perlu cin.ignore lagi
     cout << "Jumlah Set       : ";
     getline(cin, dataList[data_ke]->Jumlah_Set);
     cout << "Beban (kg)       : ";
