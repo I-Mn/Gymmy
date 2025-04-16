@@ -3,7 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
-#include "data.h"
+#include "data.cpp"
 
 using namespace std;
 

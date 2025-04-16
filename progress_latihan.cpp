@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "data.h" // Include data.h for shared structures and functions
+#include "data.cpp" // Include data.h for shared structures and functions
 using namespace std;
 
 void tambah() {

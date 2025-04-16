@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-#include "data.h"
+#include "data.cpp"
 
 //Melihat Pelatih
 void lihatpelatih(){

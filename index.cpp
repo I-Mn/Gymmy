@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
 #include <utility>
-#include "anggota.h"
+#include "anggota.cpp"
 #include "login.cpp"
 #include "jadwalLatihan.cpp"
 #include "manajemn_pelatih.cpp"
 #include "progress_latihan.cpp"
-#include "data.h"
+#include "data.cpp"
 using namespace std;
 
 int main(){

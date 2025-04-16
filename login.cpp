@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "data.h"
-#include "anggota.h"
+#include "data.cpp"
+#include "anggota.cpp"
 using namespace std;
 
 // Fungsi tambahAkun dikomentari karena tidak lagi digunakan

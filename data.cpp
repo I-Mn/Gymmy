@@ -6,6 +6,7 @@
 #include <ctime> // Tambahkan header untuk time()
 using namespace std;
 #include <cstdlib>
+#include <vector>
 
 void initializeRandomSeed() {
     srand(static_cast<unsigned int>(time(0))); // Inisialisasi seed dengan waktu saat ini
