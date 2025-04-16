@@ -23,7 +23,21 @@ char randomLetter(){
     return randChar;
 }
 
-struct anggotaNode{
+struct progress_latihan {
+    string username; // Associate progress data with a specific user
+    string Jenis_Latihan;
+    string Jumlah_Set;
+    string Beban;
+    string Durasi;
+    string Skala_Latihan;
+    string Progress;
+    string Catatan;
+};
+
+progress_latihan **dataList = new progress_latihan *[100];
+int data_ke = 0;
+
+struct anggotaNode {
     string nama;
     string telp;
     int umur;
@@ -31,23 +45,10 @@ struct anggotaNode{
     string jenisKelamin;
     string pelatih;
     string pass;
-    string username; // Add username field
-    anggotaNode* next;
-
-    // Move progress_latihan struct inside anggotaNode
-    struct progress_latihan {
-        string Jenis_Latihan;
-        string Jumlah_Set;
-        string Beban;
-        string Durasi;
-        string Skala_Latihan;
-        string Progress;
-        string Catatan;
-    };
-
-    progress_latihan **dataList = new progress_latihan *[100];
-    int data_ke = 0;
+    string username;
+    anggotaNode *next;
 };
+
 anggotaNode *headAnggota;
 anggotaNode *tailAnggota;
 
@@ -56,16 +57,21 @@ int countIdPelatih = 0;
 
 const int MAX = 100;
 
-struct pelatih{
+struct pelatih {
     string nama;
     string notelp;
     int umur;
     string jeniskelamin;
     string spesialis;
+    string username; // Add username field
+    string password; // Add password field
 };
 
 pelatih datapelatih[MAX];
 int jumlahpelatih = 0;
+
+string sesiRole;
+string sesiUser;
 
 void loadAnggota(anggotaNode *&headAnggota, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih, string passAnggota, string username){
     anggotaNode *newMember = new anggotaNode;
@@ -120,27 +126,31 @@ void saveToDatabase(){
              <<currentAnggota->username<< endl;
 
         // Save progress data specific to this anggotaNode
-        for (int i = 0; i < currentAnggota->data_ke; ++i) {
-            file << "PROGRESS," << currentAnggota->dataList[i]->Jenis_Latihan << ","
-                 << currentAnggota->dataList[i]->Jumlah_Set << ","
-                 << currentAnggota->dataList[i]->Beban << ","
-                 << currentAnggota->dataList[i]->Durasi << ","
-                 << currentAnggota->dataList[i]->Skala_Latihan << ","
-                 << currentAnggota->dataList[i]->Progress << ","
-                 << currentAnggota->dataList[i]->Catatan << endl;
+        for (int i = 0; i < data_ke; ++i) {
+            if (dataList[i]->username == currentAnggota->username) {
+                file << "PROGRESS," << dataList[i]->Jenis_Latihan << ","
+                     << dataList[i]->Jumlah_Set << ","
+                     << dataList[i]->Beban << ","
+                     << dataList[i]->Durasi << ","
+                     << dataList[i]->Skala_Latihan << ","
+                     << dataList[i]->Progress << ","
+                     << dataList[i]->Catatan << endl;
+            }
         }
 
         currentAnggota = currentAnggota->next;
     }
 
+    // Save pelatih data
     for (int i = 0; i < jumlahpelatih; i++) {
         file << "PELATIH," << datapelatih[i].nama << ","
-         << datapelatih[i].notelp << ","
-         << datapelatih[i].umur << ","
-         << datapelatih[i].jeniskelamin << ","
-         << datapelatih[i].spesialis << endl;
+             << datapelatih[i].notelp << ","
+             << datapelatih[i].umur << ","
+             << datapelatih[i].jeniskelamin << ","
+             << datapelatih[i].spesialis << ","
+             << datapelatih[i].username << ","
+             << datapelatih[i].password << endl;
     }
-    
 
     file.close();
 }
@@ -173,8 +183,9 @@ void loadFromDatabase(){
 
             loadAnggota(headAnggota, nama, telp, umur, paket, jenisKelamin, pelatih, pass, username);
         } else if (type == "PROGRESS") {
-            string Jenis_Latihan, Jumlah_Set, Beban, Durasi, Skala_Latihan, Progress, Catatan;
+            string username, Jenis_Latihan, Jumlah_Set, Beban, Durasi, Skala_Latihan, Progress, Catatan;
 
+            getline(ss, username, ',');
             getline(ss, Jenis_Latihan, ',');
             getline(ss, Jumlah_Set, ',');
             getline(ss, Beban, ',');
@@ -183,18 +194,38 @@ void loadFromDatabase(){
             getline(ss, Progress, ',');
             getline(ss, Catatan, ',');
 
-            if (headAnggota != NULL) {
-                anggotaNode *currentAnggota = tailAnggota; // Assuming data is ordered
-                currentAnggota->dataList[currentAnggota->data_ke] = new anggotaNode::progress_latihan;
-                currentAnggota->dataList[currentAnggota->data_ke]->Jenis_Latihan = Jenis_Latihan;
-                currentAnggota->dataList[currentAnggota->data_ke]->Jumlah_Set = Jumlah_Set;
-                currentAnggota->dataList[currentAnggota->data_ke]->Beban = Beban;
-                currentAnggota->dataList[currentAnggota->data_ke]->Durasi = Durasi;
-                currentAnggota->dataList[currentAnggota->data_ke]->Skala_Latihan = Skala_Latihan;
-                currentAnggota->dataList[currentAnggota->data_ke]->Progress = Progress;
-                currentAnggota->dataList[currentAnggota->data_ke]->Catatan = Catatan;
-                currentAnggota->data_ke++;
-            }
+            progress_latihan *newProgress = new progress_latihan;
+            newProgress->username = username;
+            newProgress->Jenis_Latihan = Jenis_Latihan;
+            newProgress->Jumlah_Set = Jumlah_Set;
+            newProgress->Beban = Beban;
+            newProgress->Durasi = Durasi;
+            newProgress->Skala_Latihan = Skala_Latihan;
+            newProgress->Progress = Progress;
+            newProgress->Catatan = Catatan;
+
+            dataList[data_ke++] = newProgress;
+        } else if (type == "PELATIH") {
+            string nama, notelp, umurStr, jeniskelamin, spesialis, username, password;
+
+            getline(ss, nama, ',');
+            getline(ss, notelp, ',');
+            getline(ss, umurStr, ',');
+            getline(ss, jeniskelamin, ',');
+            getline(ss, spesialis, ',');
+            getline(ss, username, ',');
+            getline(ss, password, ',');
+
+            int umur = stoi(umurStr);
+
+            pelatih *p = &datapelatih[jumlahpelatih++];
+            p->nama = nama;
+            p->notelp = notelp;
+            p->umur = umur;
+            p->jeniskelamin = jeniskelamin;
+            p->spesialis = spesialis;
+            p->username = username;
+            p->password = password;
         }
     }
 

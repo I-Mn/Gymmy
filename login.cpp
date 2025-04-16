@@ -40,6 +40,7 @@ void loadAkun() {
 }
 */
 
+
 // Cek login
 bool login(string role, string username, string password) {
     if (role == "ANGGOTA") {
@@ -51,12 +52,23 @@ bool login(string role, string username, string password) {
             temp = temp->next;
         }
     }
-    // Placeholder for future roles (PELATIH, ADMIN)
+    else if (role == "PELATIH") {
+        for (int i = 0; i < jumlahpelatih; i++) {
+            if (datapelatih[i].nama == username && datapelatih[i].notelp == password) {
+                return true;
+            }
+        }
+    }
+    else if (role == "ADMIN"){
+        if (username == "admin" && password == "admin#12345"){
+            return true;
+        }
+    }
     return false;
 }
 
 // Menu login interaktif
-string menuLogin() {
+void menuLogin() {
     loadFromDatabase(); // Load data anggota dari database
     int pilihan;
     string role, username, pass;
@@ -70,13 +82,14 @@ string menuLogin() {
     cin >> pilihan;
 
     switch (pilihan) {
-        case 1: role = "ANGGOTA"; return role;
-        case 2: role = "PELATIH"; return role;
-        case 3: role = "ADMIN"; return role;
-        case 0: return;
+        case 1: role = "ANGGOTA"; break;
+        case 2: role = "PELATIH"; break;
+        case 3: role = "ADMIN"; break;
+        case 0: role = "-1"; return;
         default:
             cout << "Pilihan tidak valid!\n";
-            return;
+            role = "-1";
+    return;
     }
 
     cout << "Username (ID): ";
@@ -86,13 +99,8 @@ string menuLogin() {
 
     if (login(role, username, pass)) {
         cout << "Login berhasil sebagai " << role << "!\n";
-        if (role == "ANGGOTA") {
-            menuAnggota();
-        } else if (role == "PELATIH") {
-            // Placeholder for pelatih menu
-        } else if (role == "ADMIN") {
-            // Placeholder for admin menu
-        }
+        sesiRole = role; sesiUser = username;
+        return;
     } else {
         cout << "Login gagal. Cek username/password.\n";
     }

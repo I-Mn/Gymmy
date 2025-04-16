@@ -83,6 +83,21 @@ void hapus() {
 }
 
 void tampil() {
+    if (sesiRole == "ANGGOTA"){
+        for (int i = 0; i < data_ke; ++i){
+            if (sesiUser == dataList[i]->username){
+                cout << "\n=== Data Progress Latihan ===\n";
+                cout << "Jenis Latihan    : " << dataList[i]->Jenis_Latihan << endl;
+                cout << "Jumlah Set       : " << dataList[i]->Jumlah_Set << endl;
+                cout << "Beban (kg)       : " << dataList[i]->Beban << endl;
+                cout << "Durasi (menit)   : " << dataList[i]->Durasi << endl;
+                cout << "Skala Latihan    : " << dataList[i]->Skala_Latihan << endl;
+                cout << "Progress         : " << dataList[i]->Progress << endl;
+                cout << "Catatan          : " << dataList[i]->Catatan << endl;
+            }
+        }
+    }
+    else{
     for (int i = 0; i < data_ke; ++i) {
         cout << "\nData ke-" << i + 1 << ":\n";
         cout << "\n=== Data Progress Latihan ===\n";
@@ -93,10 +108,10 @@ void tampil() {
         cout << "Skala Latihan    : " << dataList[i]->Skala_Latihan << endl;
         cout << "Progress         : " << dataList[i]->Progress << endl;
         cout << "Catatan          : " << dataList[i]->Catatan << endl;
-    }
+    }}
 }
 
-int main() {
+void menuProgress() {
     loadFromDatabase(); // Load data from database at the start
     int pilihan;
 

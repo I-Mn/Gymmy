@@ -95,7 +95,7 @@ void tampilkanJadwal() {
     cout << "Pelatih: " << jadwal.Pelatih << endl;
 }
 
-void menuUtama() {
+void menuJadwal() {
     int pilihan;
 
     bacaData();
@@ -123,9 +123,4 @@ void menuUtama() {
                 cout << "Pilihan tidak valid.\n";
         }
     } while (pilihan != 3);
-}
-
-int main() {
-    menuUtama();
-    return 0;
 }
