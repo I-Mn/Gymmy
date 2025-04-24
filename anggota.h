@@ -5,21 +5,52 @@
 #include <vector>
 #include "data.h"
 #include <iomanip>
+#include <cctype>
 #define head headAnggota
 using namespace std;
+
+bool inputValid(string type, const string& a){
+    if (a.empty()) return false;
+
+    if (type == "telp"){
+        for (char c : a){
+            if (!isdigit(c) && c != '+' && c != '-' && c !=' ') return false;
+        }
+        int countDigit = 0;
+        for (char c : a){
+            if (isdigit(c)) countDigit++;
+        }
+        if (countDigit < 10 || countDigit > 15) return false;
+    }
+
+    if (type == "kelamin"){
+        if (a != "Laki laki" && a != "Perempuan") return false;
+    }
+
+    if (type == "pelatih") {
+        bool found = false;
+        for (int i = 0; i < jumlahpelatih; i++) {
+            if (datapelatih[i].username == a) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) return false;
+    }
+    return true;
+}
 
 void addAnggota(anggotaNode *&head, string nama, string telp, int umur, string paket, string jenisKelamin, string pelatih, string passAnggota) {
     string baseUsername = nama;
     string username = baseUsername;
     int counter = 1;
 
-    // Ensure the username is unique
     anggotaNode *current = head;
     while (current != NULL) {
         if (current->username == username) {
             username = baseUsername + to_string(counter);
             counter++;
-            current = head; // Restart the check
+            current = head;
         } else {
             current = current->next;
         }
@@ -36,16 +67,29 @@ void viewAnggota() {
         cout << "Tidak ada anggota yang terdaftar." << endl;
         return;
     }
-    while (current != NULL) {
-        cout << "\nNama: "
-             << current->nama << "\nNo. Telp: "
-             << current->telp << "\nUmur: "
-             << current->umur << "\nPaket: "
-             << current->paket << "\nJenis Kelamin: "
-             << current->jenisKelamin << "\nPelatih: "
-             << current->pelatih << "\nUsername: "
-             << current->username << "\nPassword: "
-             << current->pass << endl << endl;
+    cout << "\n======================= DAFTAR ANGGOTA =======================\n";
+
+    cout << left << setw(20) << "Nama"
+         << setw(15) << "Username"
+         << setw(12) << "Password"
+         << setw(18) << "No. Telp"
+         << setw(6)  << "Umur"
+         << setw(12) << "Paket"
+         << setw(15) << "Jenis Kelamin"
+         << setw(20) << "Nama Pelatih" << endl;
+    
+    cout << string(118, '-') << endl;
+
+    while (current != NULL){
+        cout << left << setw(20) << current->nama
+             << setw(15) << current->username
+             << setw(12) << current->pass
+             << setw(18) << current->telp
+             << setw(6)  << current->umur
+             << setw(12) << current->paket
+             << setw(15) << current->jenisKelamin
+             << setw(20) << current->pelatih << endl;
+        cout << string(118, '-') << endl;
         current = current->next;
     }
 }
@@ -90,34 +134,63 @@ void hapusAnggota(anggotaNode *&head, string username) {
 }
 
 void fungsiTambahAnggota() {
-    initializeRandomSeed(); // Inisialisasi seed untuk random
+    initializeRandomSeed();
     char passAnggotaArray[7] = {};
-    char newChar;
     for (int i = 0; i < 6; i++) {
-        newChar = randomLetter();
-        passAnggotaArray[i] = newChar;
+        passAnggotaArray[i] = randomLetter();
     }
-    passAnggotaArray[6] = '\0'; // Menambahkan null terminator
+    passAnggotaArray[6] = '\0';
     string passAnggota = string(passAnggotaArray);
-    string telp;
+
+    string telp, nama, paket, jenisKelamin, pelatih;
     int umur;
-    string nama;
-    string paket;
-    string jenisKelamin;
-    string pelatih;
-    cout << "Masukkan nama anggota: ";
-    getline(cin, nama);
-    cout << "Masukkan nomor telepon anggota: ";
-    getline(cin, telp);
-    cout << "Masukkan umur anggota: ";
-    cin >> umur;
+
+    while (true) {
+        cout << "Masukkan nama anggota: ";
+        getline(cin, nama);
+        if (!nama.empty()) break;
+        cout << "Nama tidak boleh kosong. Coba lagi.\n";
+    }
+
+    while (true) {
+        cout << "Masukkan nomor telepon anggota: ";
+        getline(cin, telp);
+        if (inputValid("telp", telp)) break;
+        cout << "Nomor telepon tidak valid. Coba lagi.\n";
+    }
+
+    while (true) {
+        cout << "Masukkan umur anggota: ";
+        cin >> umur;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Input tidak valid, masukkan angka bulat!\n";
+        } else break;
+    }
     cin.ignore();
-    cout << "Masukkan paket anggota: ";
-    getline(cin, paket);
-    cout << "Masukkan jenis kelamin anggota: ";
-    getline(cin, jenisKelamin);
-    cout << "Masukkan nama pelatih anggota: ";
-    getline(cin, pelatih);
+
+    while (true) {
+        cout << "Masukkan paket anggota: ";
+        getline(cin, paket);
+        if (!paket.empty()) break;
+        cout << "Paket tidak boleh kosong. Coba lagi.\n";
+    }
+
+    while (true) {
+        cout << "Masukkan jenis kelamin anggota: ";
+        getline(cin, jenisKelamin);
+        if (inputValid("kelamin", jenisKelamin)) break;
+        cout << "Jenis kelamin harus 'Laki laki' atau 'Perempuan'. Coba lagi.\n";
+    }
+
+    while (true) {
+        cout << "Masukkan nama pelatih anggota: ";
+        getline(cin, pelatih);
+        if (inputValid("pelatih", pelatih)) break;
+        cout << "Pelatih tidak ditemukan. Masukkan nama pelatih yang valid.\n";
+    }
+
     addAnggota(head, nama, telp, umur, paket, jenisKelamin, pelatih, passAnggota);
     cout << "Anggota berhasil ditambahkan dengan username: " << nama << endl;
 }
@@ -130,36 +203,65 @@ void fungsiHapusAnggota() {
 }
 
 void fungsiEditAnggota() {
-    string username;
-    string nama;
-    string telp;
+    string username, nama, telp, paket, jenisKelamin, pelatih;
     int umur;
-    string paket;
-    string jenisKelamin;
-    string pelatih;
+
     cout << "Masukkan username anggota yang ingin diedit: ";
     cin >> username;
     cin.ignore();
-    cout << "Masukkan nama baru anggota: ";
-    getline(cin, nama);
-    cout << "Masukkan nomor telepon baru anggota: ";
-    getline(cin, telp);
-    cout << "Masukkan umur baru anggota: ";
-    cin >> umur;
+
+    while (true) {
+        cout << "Masukkan nama baru anggota: ";
+        getline(cin, nama);
+        if (!nama.empty()) break;
+        cout << "Nama tidak boleh kosong. Coba lagi.\n";
+    }
+
+    while (true) {
+        cout << "Masukkan nomor telepon baru anggota: ";
+        getline(cin, telp);
+        if (inputValid("telp", telp)) break;
+        cout << "Nomor telepon tidak valid. Coba lagi.\n";
+    }
+
+    while (true) {
+        cout << "Masukkan umur baru anggota: ";
+        cin >> umur;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Input tidak valid, masukkan angka bulat!\n";
+        } else break;
+    }
     cin.ignore();
-    cout << "Masukkan paket baru anggota: ";
-    getline(cin, paket);
-    cout << "Masukkan jenis kelamin baru anggota: ";
-    getline(cin, jenisKelamin);
-    cout << "Masukkan nama pelatih baru anggota: ";
-    getline(cin, pelatih);
+
+    while (true) {
+        cout << "Masukkan paket baru anggota: ";
+        getline(cin, paket);
+        if (!paket.empty()) break;
+        cout << "Paket tidak boleh kosong. Coba lagi.\n";
+    }
+
+    while (true) {
+        cout << "Masukkan jenis kelamin baru anggota: ";
+        getline(cin, jenisKelamin);
+        if (inputValid("kelamin", jenisKelamin)) break;
+        cout << "Jenis kelamin harus 'Laki laki' atau 'Perempuan'. Coba lagi.\n";
+    }
+
+    while (true) {
+        cout << "Masukkan nama pelatih baru anggota: ";
+        getline(cin, pelatih);
+        if (inputValid("pelatih", pelatih)) break;
+        cout << "Pelatih tidak ditemukan. Masukkan nama pelatih yang valid.\n";
+    }
+
     editAnggota(head, username, nama, telp, umur, paket, jenisKelamin, pelatih);
     cout << "Data anggota dengan username " << username << " telah diperbarui." << endl;
 }
 
 void menuAnggota() {
-    int pilihan;
-    pilihan = 0;
+    int pilihan = 0;
     while (true) {
         cout << "\nMenu Manajemen Anggota:" << endl;
         cout << "1. Tambah Anggota" << endl;
@@ -171,24 +273,14 @@ void menuAnggota() {
 
         cin >> pilihan;
         cin.ignore();
-        if (pilihan == 1) {
-            fungsiTambahAnggota();
-            continue;
-        } else if (pilihan == 2) {
-            fungsiHapusAnggota();
-            continue;
-        } else if (pilihan == 3) {
-            viewAnggota();
-            continue;
-        } else if (pilihan == 4) {
-            fungsiEditAnggota();
-            continue;
-        } else if (pilihan != 0) {
-            cout << "Pilihan tidak valid. Silakan coba lagi." << endl;
-            continue;
-        } else {
-            break;
-        }
+
+        if (pilihan == 1) fungsiTambahAnggota();
+        else if (pilihan == 2) fungsiHapusAnggota();
+        else if (pilihan == 3) viewAnggota();
+        else if (pilihan == 4) fungsiEditAnggota();
+        else if (pilihan == 0) break;
+        else cout << "Pilihan tidak valid. Silakan coba lagi." << endl;
     }
 }
+
 #endif
