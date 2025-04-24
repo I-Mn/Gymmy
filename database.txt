@@ -4,4 +4,5 @@ ANGGOTA,Mizan,0880980131,20,Trial,Laki laki,Muhammad Soleh Naruto,AIPJHP,Mizan1
 ANGGOTA,Lolita,+62 857 9414 5175,19,Trial,Laki laki,Joko,KNE5BD,Lolita
 PROGRESS,Mizan,ngkat Beban,10,10,10,Ringan,Bagus,Nice
 PELATIH,Joko,0999999,23,Laki laki,Bulu Tangkis,Joko,VP52M8
+PELATIH,az,+09890,12,Perempuan,yoga,az,IKMFF5
 JADWAL,Mizan,,1,Senin,10,10,2010,Lari,20,Joko
