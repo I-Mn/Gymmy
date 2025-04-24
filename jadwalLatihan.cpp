@@ -4,54 +4,21 @@
 #include <vector>
 #include <string>
 #include "data.h"
+#include <iomanip>
 
 using namespace std;
 
-// void bacaData() {
-//     ifstream file("database.txt");
-//     string baris;
-
-//     while (getline(file, baris)) {
-//         stringstream ss(baris);
-//         string tipe, nama;
-//         getline(ss, tipe, ',');
-//         getline(ss, nama);
-
-//         if (tipe == "ANGGOTA") {
-//             daftarAnggota.push_back(nama);
-//         } else if (tipe == "PELATIH") {
-//             daftarPelatih.push_back(nama);
-//         }
-//     }
-//     file.close();
-// }
-
 void inputJadwal() {
-    JadwalLatihan jadwalBaru; // buat jadwal baru
+    JadwalLatihan jadwalBaru;
 
     int pilih;
 
-    // cout << "\nDaftar Anggota:\n";
-    // for (int i = 0; i < daftarAnggota.size(); ++i) {
-    //     cout << i + 1 << ". " << daftarAnggota[i] << endl;
-    // }
-    // cout << "Pilih nomor anggota: ";
-    // cin >> pilih;
-    // jadwalBaru.NamaAnggota = daftarAnggota[pilih - 1];
-
     cout << "Masukkan Username Anggota: ";
-    cin >> jadwalBaru.username; // tambahkan input untuk username
+    cin >> jadwalBaru.username;
 
-    // cout << "\nDaftar Pelatih:\n";
-    // for (int i = 0; i < daftarPelatih.size(); ++i) {
-    //     cout << i + 1 << ". " << daftarPelatih[i] << endl;
-    // }
-    // cout << "Pilih nomor pelatih: ";
-    // cin >> pilih;
-    // jadwalBaru.Pelatih = daftarPelatih[pilih - 1];
     cout << "Masukkan Nama Pelatih: ";
-    cin.ignore(); // bersihkan buffer
-    getline(cin, jadwalBaru.Pelatih); // tambahkan input untuk pelatih
+    cin.ignore(); 
+    getline(cin, jadwalBaru.Pelatih);
 
     cout << "Jumlah Anggota: ";
     cin >> jadwalBaru.JumlahAnggota;
@@ -71,25 +38,36 @@ void inputJadwal() {
     cout << "Durasi (menit): ";
     cin >> jadwalBaru.Durasi;
 
-    daftarJadwal.push_back(jadwalBaru); // tambahkan ke daftar jadwal
+    daftarJadwal.push_back(jadwalBaru);
 }
 
 void tampilkanJadwal() {
-    cout << "\nData Jadwal Latihan:\n";
-    for (const auto& jadwal : daftarJadwal) {
-        if (sesiRole == "ANGGOTA" && sesiUser != jadwal.username) {
-            continue; // Hanya tampilkan jadwal untuk user yang sesuai
-        }
-        cout << "Nama: " << jadwal.NamaAnggota << endl;
-        cout << "Username: " << jadwal.username << endl;
-        cout << "Jumlah: " << jadwal.JumlahAnggota << endl;
-        cout << "Tanggal: " << jadwal.HariLatihan.hari << ", "
-             << jadwal.HariLatihan.tanggal << "-" << jadwal.HariLatihan.bulan << "-" << jadwal.HariLatihan.tahun << endl;
-        cout << "Jenis Latihan: " << jadwal.JenisLatihan << endl;
-        cout << "Durasi: " << jadwal.Durasi << " menit" << endl;
-        cout << "Pelatih: " << jadwal.Pelatih << endl;
-        cout << "--------------------------\n";
+    cout << left << setw(15) << "Nama"
+    << setw(15) << "Username"
+    << setw(8)  << "Jumlah"
+    << setw(15) << "Tanggal"
+    << setw(18) << "Jenis Latihan"
+    << setw(10) << "Durasi"
+    << setw(15) << "Pelatih" << endl;
+cout << string(96, '-') << endl;
+
+for (const auto& jadwal : daftarJadwal) {
+    if (sesiRole == "ANGGOTA" && sesiUser != jadwal.username) {
+        continue; 
     }
+    string tanggal = jadwal.HariLatihan.hari + ", " +
+                         to_string(jadwal.HariLatihan.tanggal) + "-" +
+                         to_string(jadwal.HariLatihan.bulan) + "-" +
+                         to_string(jadwal.HariLatihan.tahun);
+     cout << left << setw(15) << jadwal.NamaAnggota
+             << setw(15) << jadwal.username
+             << setw(8)  << jadwal.JumlahAnggota
+             << setw(15) << tanggal
+             << setw(18) << jadwal.JenisLatihan
+             << setw(10) << jadwal.Durasi
+             << setw(15) << jadwal.Pelatih << endl;
+}
+cout << endl;
 }
 
 void editJadwal() {
@@ -175,7 +153,6 @@ void menuJadwal() {
         cout << "Pilih: ";
         cin >> pilihan;
 
-        // Tambahkan cin.ignore() untuk membersihkan buffer
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         switch (pilihan) {

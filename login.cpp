@@ -5,41 +5,6 @@
 #include "anggota.h"
 using namespace std;
 
-// Fungsi tambahAkun dikomentari karena tidak lagi digunakan
-/*
-void tambahAkun(string role, string username, string password) {
-    AkunNode* baru = new AkunNode{role, username, password, nullptr};
-    if (!akunHead) {
-        akunHead = baru;
-    } else {
-        AkunNode* temp = akunHead;
-        while (temp->next) temp = temp->next;
-        temp->next = baru;
-    }
-}
-*/
-
-// Fungsi loadAkun dikomentari karena tidak lagi digunakan
-/*
-void loadAkun() {
-    ifstream file("akun.txt");
-    string line;
-    while (getline(file, line)) {
-        if (line.empty()) continue;
-
-        stringstream ss(line);
-        string role, username, password;
-
-        if (getline(ss, role, ',') && getline(ss, username, ',') && getline(ss, password, ',')) {
-            cout << "Role: " << role << ", Username: " << username << ", Password: " << password << endl;
-
-            tambahAkun(role, username, password);
-        }
-    }
-    file.close();
-}
-*/
-
 
 // Cek login
 bool login(string role, string username, string password) {
