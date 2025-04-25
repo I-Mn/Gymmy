@@ -1,5 +1,9 @@
 ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
 ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
 ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
+ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
+ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
+ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
 PELATIH,Joko,0999999,23,Laki laki,Bulu Tangkis,Joko,VP52M8
-
+PELATIH,Joko,0999999,23,Laki laki,Bulu Tangkis,Joko,VP52M8
+JADWAL,Mizan,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan,1,senin,24,1,2025,Work,0,Joko,0999999,23,Laki laki,Bulu Tangkis,Joko,VP52M8

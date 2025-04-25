@@ -2,7 +2,6 @@
 #define ANGGOTA_H
 #include <iostream>
 #include <string>
-<<<<<<< HEAD:anggota.cpp
 #include "data.cpp"
 #include <vector>
 

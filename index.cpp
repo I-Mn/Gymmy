@@ -7,6 +7,7 @@
 #include "manajemn_pelatih.cpp"
 #include "progress_latihan.cpp"
 #include "data.cpp"
+#include <limits>
 using namespace std;
 
 int main(){
