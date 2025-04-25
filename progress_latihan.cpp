@@ -3,6 +3,7 @@
 #include <limits>
 #include <iomanip>
 #include "data.h" // Include data.h for shared structures and functions
+#include <limits>
 using namespace std;
 
 void tambah() {

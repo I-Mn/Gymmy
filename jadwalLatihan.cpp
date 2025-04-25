@@ -5,7 +5,7 @@
 #include <string>
 #include "data.h"
 #include <iomanip>
-
+#include <limits>
 using namespace std;
 
 void inputJadwal() {
