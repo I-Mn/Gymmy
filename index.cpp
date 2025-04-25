@@ -1,13 +1,14 @@
 #include <iostream>
 #include <string>
 #include <utility>
+#include "anggota.cpp"
 #include <limits>
-#include "anggota.h"
 #include "login.cpp"
 #include "jadwalLatihan.cpp"
 #include "manajemn_pelatih.cpp"
 #include "progress_latihan.cpp"
 #include "data.h"
+#include <limits>
 using namespace std;
 
 int main(){

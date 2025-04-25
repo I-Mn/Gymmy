@@ -2,10 +2,11 @@
 #define ANGGOTA_H
 #include <iostream>
 #include <string>
-#include <vector>
 #include "data.h"
+#include <vector>
 #include <iomanip>
 #include <cctype>
+#include <limits>
 #define head headAnggota
 using namespace std;
 

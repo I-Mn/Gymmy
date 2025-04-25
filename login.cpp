@@ -2,11 +2,12 @@
 #include <fstream>
 #include <sstream>
 #include "data.h"
-#include "anggota.h"
+#include <conio.h> // Untuk getch()
+#include "anggota.cpp"
+
 using namespace std;
 
-
-// Cek login
+// Fungsi untuk memverifikasi login
 bool login(string role, string username, string password) {
     if (role == "ANGGOTA") {
         anggotaNode* temp = headAnggota;
@@ -16,23 +17,45 @@ bool login(string role, string username, string password) {
             }
             temp = temp->next;
         }
-    }
-    else if (role == "PELATIH") {
+    } else if (role == "PELATIH") {
         for (int i = 0; i < jumlahpelatih; i++) {
             if (datapelatih[i].username == username && datapelatih[i].password == password) {
                 return true;
             }
         }
-    }
-    else if (role == "ADMIN"){
-        if (username == "admin" && password == "admin#12345"){
+    } else if (role == "ADMIN") {
+        if (username == "admin" && password == "admin#12345") {
             return true;
         }
     }
     return false;
 }
 
-// Menu login interaktif
+// Fungsi untuk membaca password tanpa menampilkannya di layar
+string readPassword() {
+    string password;
+    char ch;
+    while (true) {
+        ch = getch();
+        if (ch == '\r') { // Enter ditekan
+            break;
+        }
+        else if (ch == '\b') { // Backspace
+            if (!password.empty()) {
+                password.pop_back();
+                cout << "\b \b";
+            }
+        }
+        else if (isprint(ch)) { // Hanya karakter yang bisa dicetak
+            password.push_back(ch);
+            cout << '*';
+        }
+    }
+    cout << endl;
+    return password;
+}
+
+// Fungsi untuk menampilkan menu login
 void menuLogin() {
     loadFromDatabase(); // Load data anggota dari database
     int pilihan;
@@ -45,28 +68,49 @@ void menuLogin() {
     cout << "0. Keluar\n";
     cout << "Pilih opsi: ";
     cin >> pilihan;
+    cin.ignore(); // Membersihkan karakter newline dari buffer
 
     switch (pilihan) {
         case 1: role = "ANGGOTA"; break;
         case 2: role = "PELATIH"; break;
         case 3: role = "ADMIN"; break;
-        case 0: role = "-1"; return;
+        case 0: return;
         default:
             cout << "Pilihan tidak valid!\n";
-            role = "-1";
-    return;
+            return;
     }
 
-    cout << "Username (ID): ";
-    cin >> username;
-    cout << "Password: ";
-    cin >> pass;
+    // Input Username
+    while (true) {
+        cout << "Username (ID): ";
+        getline(cin, username);
+
+        // Validasi username kosong
+        if (username.empty() || username.find_first_not_of(" \t\n\v\f\r") == string::npos) {
+            cout << "Username tidak boleh kosong. Silakan masukkan kembali.\n";
+        } else {
+            break;
+        }
+    }
+
+    // Input Password
+    while (true) {
+        cout << "Password: ";
+        pass = readPassword();
+
+        // Validasi password kosong
+        if (pass.empty() || pass.find_first_not_of(" \t\n\v\f\r") == string::npos) {
+            cout << "Password tidak boleh kosong. Silakan masukkan kembali.\n";
+        } else {
+            break;
+        }
+    }
 
     if (login(role, username, pass)) {
-        cout << "Login berhasil sebagai " << role << "!\n";
-        sesiRole = role; sesiUser = username;
-        return;
+        cout << "Login berhasil sebagai " << role << ".\n";
+        sesiRole = role;
+        sesiUser = username;
     } else {
-        cout << "Login gagal. Cek username/password.\n";
+        cout << "Login gagal. Cek username atau password.\n";
     }
 }
