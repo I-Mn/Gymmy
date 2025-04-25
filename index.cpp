@@ -2,11 +2,12 @@
 #include <string>
 #include <utility>
 #include "anggota.cpp"
+#include <limits>
 #include "login.cpp"
 #include "jadwalLatihan.cpp"
 #include "manajemn_pelatih.cpp"
 #include "progress_latihan.cpp"
-#include "data.cpp"
+#include "data.h"
 #include <limits>
 using namespace std;
 
@@ -88,13 +89,12 @@ int main(){
             cout << "GYMMY" << endl;
             cout << "--------------------" << endl;
             cout << "Main Menu" << endl;
-            cout << "1. Lihat Jadwal Latihan" << endl;
-            cout << "2. Lihat Progress Latihan" << endl; // Perbaikan typo
+            cout << "1. Menu Progress Latihan" << endl; 
             cout << "0. Keluar" << endl;
             cout << "Pilih menu: ";
             cin >> menu;
 
-            if (cin.fail() || menu < 0 || menu > 2) {
+            if (cin.fail() || menu < 0 || menu > 1) {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Menu tidak valid. Silakan coba lagi." << endl;
