@@ -1,16 +1,6 @@
-ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
-ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
-ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
-ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
-ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
-ANGGOTA,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan
-PELATIH,Joko,0999999,23,Laki laki,Bulu Tangkis,Joko,VP52M8
-PELATIH,Joko,0999999,23,Laki laki,Bulu Tangkis,Joko,VP52M8
-JADWAL,Mizan,Mizan,085794145175,19,Premium,Laki,Joko,LXNRPB,Mizan,1,senin,24,1,2025,Work,0,Joko,0999999,23,Laki laki,Bulu Tangkis,Joko,VP52M8
-ANGGOTA,Felicia,090808412341,15,Gratis,Perempuan,Ahmad Setyo,4CZFVY,Felicia
-ANGGOTA,Mizan,0880980131,20,Trial,Laki laki,Muhammad Soleh Naruto,AIPJHP,Mizan1
-ANGGOTA,Lolita,+62 857 9414 5175,19,Trial,Laki laki,Joko,KNE5BD,Lolita
-PROGRESS,Mizan,ngkat Beban,10,10,10,Ringan,Bagus,Nice
-PELATIH,Joko,0999999,23,Laki laki,Bulu Tangkis,Joko,VP52M8
-PELATIH,az,+09890,12,Perempuan,yoga,az,IKMFF5
-JADWAL,Mizan,,1,Senin,10,10,2010,Lari,20,Joko
+ANGGOTA,Adit Setyo,+628123765890,20,Premium,Laki laki,Ahmad Basuki,0XINT5,Adit Setyo
+ANGGOTA,Safira Dini,+6289012345678,18,Trial,Perempuan,Cantika Amalia,3OBCPT,Safira Dini
+ANGGOTA,Mizan,098765432123,19,Premium,Laki laki,Ahmad Basuki,4EJMK3,Mizan
+PELATIH,Ahmad Basuki,+6289012345678,35,Laki-laki,Angkat Beban,Ahmad Basuki,7NPR1G
+PELATIH,Cantika Amalia,+628456789012,32,Perempuan,Lari,Cantika Amalia,JJTEGZ
+PELATIH,Kaka,09857694212,28,Laki-laki,Tembak burung,Kaka,QH5ZOT

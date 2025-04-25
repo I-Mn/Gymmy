@@ -207,9 +207,21 @@ void fungsiEditAnggota() {
     string username, nama, telp, paket, jenisKelamin, pelatih;
     int umur;
 
-    cout << "Masukkan username anggota yang ingin diedit: ";
-    cin >> username;
-    cin.ignore();
+    anggotaNode *current = nullptr;
+
+    while (true) {
+        cout << "Masukkan username anggota yang ingin diedit: ";
+        getline(cin, username);
+
+        current = head;
+        while (current != NULL && current->username != username) {
+            current = current->next;
+        }
+
+        if (current != NULL) break;
+        cout << "Anggota dengan username \"" << username << "\" tidak ditemukan. Coba lagi.\n";
+    }
+
 
     while (true) {
         cout << "Masukkan nama baru anggota: ";

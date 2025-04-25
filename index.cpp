@@ -14,9 +14,9 @@ using namespace std;
 int main(){
     int menu;
     menu = 0;
+    loadFromDatabase();
     menuLogin();
     while (true){
-        loadFromDatabase();
         if (sesiRole == "ADMIN"){
             cout << "--------------------" << endl;
             cout << "GYMMY" << endl;
