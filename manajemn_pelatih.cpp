@@ -1,7 +1,8 @@
 #include <iostream>
-#include <regex> 
-using namespace std;
+#include <regex>
+#include <iomanip> //Untuk setw()
 #include "data.h"
+using namespace std;
 
 //Validasi angka
 bool isNumber(const string& str) {
@@ -18,152 +19,163 @@ bool isValidGender(const string& str) {
     return (str == "Laki-laki" || str == "Perempuan" || str == "laki-laki" || str == "perempuan");
 }
 
-// Melihat Pelatih
-void lihatpelatih(){
-    if (jumlahpelatih == 0){
-        cout << "Belum ada pelatih" << endl;
+//Fungi Lihat Pelatih (Memakai array 2D untuk tampilan tabel)
+void lihatpelatih() {
+    if (jumlahpelatih == 0) {
+        cout << "Belum ada pelatih." << endl;
         return;
     }
 
-    for (int i = 0; i < jumlahpelatih; i++)
-    {
-        pelatih* p = &datapelatih[i];
-        cout << "[" << i + 1 << "]" << endl;
-        cout << "Nama : " << p->nama << endl;
-        cout << "Spesialis : " << p->spesialis << endl;
-        cout << "Umur : " << p->umur << endl;
-        cout << "Jenis Kelamin : " << p->jeniskelamin << endl;
-        cout << "No. Telepon : " << p->notelp << endl;
+    string tabel[MAX][6]; //6 kolom
+
+    for (int i = 0; i < jumlahpelatih; i++) {
+        tabel[i][0] = to_string(i + 1);
+        tabel[i][1] = datapelatih[i].nama;
+        tabel[i][2] = datapelatih[i].spesialis;
+        tabel[i][3] = to_string(datapelatih[i].umur);
+        tabel[i][4] = datapelatih[i].jeniskelamin;
+        tabel[i][5] = datapelatih[i].notelp;
+    }
+
+    //Header tabel
+    cout << left << setw(5) << "No."
+         << setw(20) << "Nama"
+         << setw(15) << "Spesialis"
+         << setw(6) << "Umur"
+         << setw(15) << "Jenis Kelamin"
+         << setw(15) << "No. Telepon" << endl;
+    cout << string(76, '-') << endl;
+
+    //Isi tabel
+    for (int i = 0; i < jumlahpelatih; i++) {
+        cout << left << setw(5) << tabel[i][0]
+             << setw(20) << tabel[i][1]
+             << setw(15) << tabel[i][2]
+             << setw(6) << tabel[i][3]
+             << setw(15) << tabel[i][4]
+             << setw(15) << tabel[i][5] << endl;
     }
 }
 
-//Menambah Pelatih
-void tambahpelatih(){
+//Fungi Tambah Pelatih
+void tambahpelatih() {
     if (jumlahpelatih >= MAX) {
-        cout << "Data Penuh." << endl;
+        cout << "Data penuh." << endl;
         return;
     }
 
     pelatih* p = &datapelatih[jumlahpelatih];
 
     cin.ignore();
-    cout << "Nama : "; getline(cin, p->nama);
-    cout << "Spesialis : "; getline(cin, p->spesialis);
+    cout << "Nama: "; getline(cin, p->nama);
+    cout << "Spesialis: "; getline(cin, p->spesialis);
 
-    //Validasi umur
     string umurStr;
     while (true) {
-        cout << "Umur : "; getline(cin, umurStr);
+        cout << "Umur: "; getline(cin, umurStr);
         if (isNumber(umurStr)) {
             p->umur = stoi(umurStr);
             break;
         } else {
-            cout << "Umur harus berupa angka. Silahkan coba lagi!" << endl;
+            cout << "Umur harus berupa angka. Coba lagi!" << endl;
         }
     }
 
-    //Validasi jenis kelamin
     string gender;
     while (true) {
-        cout << "Jenis Kelamin (Laki-laki/Perempuan) : "; getline(cin, gender);
+        cout << "Jenis Kelamin (Laki-laki/Perempuan): "; getline(cin, gender);
         if (isValidGender(gender)) {
             if (gender == "laki-laki") gender = "Laki-laki";
             else if (gender == "perempuan") gender = "Perempuan";
             p->jeniskelamin = gender;
             break;
         } else {
-            cout << "Jenis kelamin hanya bisa 'Laki-laki' atau 'Perempuan'. Silahkan coba lagi." << endl;
+            cout << "Masukkan hanya 'Laki-laki' atau 'Perempuan'." << endl;
         }
     }
 
-    //Validasi nomor telepon
     string notelp;
     while (true) {
-        cout << "No. Telepon : "; getline(cin, notelp);
+        cout << "No. Telepon: "; getline(cin, notelp);
         if (isValidPhone(notelp)) {
             p->notelp = notelp;
             break;
         } else {
-            cout << "Nomor telepon hanya boleh angka dan bisa diawali dengan '+'. Silahkan coba lagi." << endl;
+            cout << "Nomor hanya angka, bisa diawali dengan '+'. Coba lagi!" << endl;
         }
     }
 
-    //Generate unique username
+    //Username unik
     string baseUsername = p->nama;
     string username = baseUsername;
     int counter = 1;
     for (int i = 0; i < jumlahpelatih; i++) {
         if (datapelatih[i].username == username) {
-            username = baseUsername + to_string(counter);
-            counter++;
-            i = -1; //Restart the check
+            username = baseUsername + to_string(counter++);
+            i = -1;
         }
     }
     p->username = username;
 
-    //Generate random password
+    //Password acak
     initializeRandomSeed();
-    char passPelatihArray[7] = {};
-    for (int i = 0; i < 6; i++) {
-        passPelatihArray[i] = randomLetter();
-    }
-    passPelatihArray[6] = '\0';
-    p->password = string(passPelatihArray);
+    char pass[7] = {};
+    for (int i = 0; i < 6; i++) pass[i] = randomLetter();
+    pass[6] = '\0';
+    p->password = string(pass);
 
     jumlahpelatih++;
-    cout << "Pelatih berhasil ditambahkan dengan username: " << p->username 
-         << " dan password: " << p->password << endl;
+    cout << "Pelatih berhasil ditambahkan!" << endl;
+    cout << "Username: " << p->username << " | Password: " << p->password << endl;
+
     saveToDatabase();
 }
 
-//Mengedit Pelatih
-void editpelatih(){
+//Fungsi Edit Pelatih
+void editpelatih() {
     string nama;
-    cout << "Masukkan nama pelatih yang ingin diedit: "; cin.ignore(); getline(cin, nama);
+    cout << "Masukkan nama pelatih yang ingin diedit: ";
+    cin.ignore(); getline(cin, nama);
 
-    for (int i = 0; i < jumlahpelatih; i++){
-        if (datapelatih[i].nama == nama)
-        {
+    for (int i = 0; i < jumlahpelatih; i++) {
+        if (datapelatih[i].nama == nama) {
             pelatih* p = &datapelatih[i];
 
-            cout << "Nama Baru : "; getline(cin, p->nama);
-            cout << "Spesialis Baru : "; getline(cin, p->spesialis);
+            cout << "Nama Baru: "; getline(cin, p->nama);
+            cout << "Spesialis Baru: "; getline(cin, p->spesialis);
 
-            //Validasi umur
             string umurStr;
             while (true) {
-                cout << "Umur Baru : "; getline(cin, umurStr);
+                cout << "Umur Baru: "; getline(cin, umurStr);
                 if (isNumber(umurStr)) {
                     p->umur = stoi(umurStr);
                     break;
                 } else {
-                    cout << "Umur harus berupa angka. Coba lagi." << endl;
+                    cout << "Umur harus angka!" << endl;
                 }
             }
 
-            //Validasi jenis kelamin
             string gender;
             while (true) {
-                cout << "Jenis Kelamin Baru (Laki-laki/Perempuan) : "; getline(cin, gender);
+                cout << "Jenis Kelamin Baru (Laki-laki/Perempuan): "; getline(cin, gender);
                 if (isValidGender(gender)) {
                     if (gender == "laki-laki") gender = "Laki-laki";
                     else if (gender == "perempuan") gender = "Perempuan";
                     p->jeniskelamin = gender;
                     break;
                 } else {
-                    cout << "Jenis kelamin hanya bisa 'Laki-laki' atau 'Perempuan'. Silahkan coba lagi." << endl;
+                    cout << "Hanya 'Laki-laki' atau 'Perempuan'." << endl;
                 }
             }
 
-            //Validasi nomor telepon
             string notelp;
             while (true) {
-                cout << "No. Telepon Baru : "; getline(cin, notelp);
+                cout << "No. Telepon Baru: "; getline(cin, notelp);
                 if (isValidPhone(notelp)) {
                     p->notelp = notelp;
                     break;
                 } else {
-                    cout << "Nomor telepon hanya boleh angka dan bisa diawali dengan '+'. Silahkan coba lagi." << endl;
+                    cout << "Format nomor salah!" << endl;
                 }
             }
 
@@ -175,20 +187,15 @@ void editpelatih(){
     cout << "Pelatih tidak ditemukan." << endl;
 }
 
-//Menghapus Pelatih
-void hapuspelatih()
-{
+//Fungsi Hapus Pelatih
+void hapuspelatih() {
     string nama;
-    cout << "Masukkan nama pelatih yang ingin dihapus : ";
-    cin.ignore();
-    getline(cin, nama);
+    cout << "Masukkan nama pelatih yang ingin dihapus: ";
+    cin.ignore(); getline(cin, nama);
 
-    for (int i = 0; i < jumlahpelatih; i++)
-    {
-        if (datapelatih[i].nama == nama)
-        {
-            for (int j = i; j < jumlahpelatih - 1; j++)
-            {
+    for (int i = 0; i < jumlahpelatih; i++) {
+        if (datapelatih[i].nama == nama) {
+            for (int j = i; j < jumlahpelatih - 1; j++) {
                 datapelatih[j] = datapelatih[j + 1];
             }
             jumlahpelatih--;
@@ -200,32 +207,31 @@ void hapuspelatih()
     cout << "Pelatih tidak ditemukan." << endl;
 }
 
-//Menu Manajemen Pelatih
-void menupelatih(){
+//Menu Pelatih
+void menupelatih() {
     int pilihan;
-
-    while (true){
-        cout << "=== Menu Manajemen Pelatih==="<< endl;
+    while (true) {
+        cout << "\n=== MENU MANAJEMEN PELATIH ===" << endl;
         cout << "1. Lihat Pelatih" << endl;
         cout << "2. Tambah Pelatih" << endl;
         cout << "3. Edit Pelatih" << endl;
         cout << "4. Hapus Pelatih" << endl;
-        cout << "0. Kembali" << endl;
-        cout << "Pilih menu : "; cin >> pilihan;
+        cout << "0. Kembali ke Menu Utama" << endl;
+        cout << "Pilih menu: ";
+        cin >> pilihan;
 
-        if (pilihan == 1){
+        if (pilihan == 1) {
             lihatpelatih();
-        } else if (pilihan == 2){
+        } else if (pilihan == 2) {
             tambahpelatih();
-        } else if (pilihan == 3){
+        } else if (pilihan == 3) {
             editpelatih();
-        } else if (pilihan == 4){
+        } else if (pilihan == 4) {
             hapuspelatih();
-        } else if (pilihan == 0){
-            cout << "Kembali ke menu utama." << endl;
+        } else if (pilihan == 0) {
             break;
-        } else{
-            cout << "Pilihan tidak valid. Silahkan coba lagi." << endl;
+        } else {
+            cout << "Pilihan tidak valid. Coba lagi!" << endl;
         }
     }
 }
