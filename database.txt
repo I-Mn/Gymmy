@@ -1,6 +1,4 @@
 ANGGOTA,Adit Setyo,+628123765890,20,Premium,Laki laki,Ahmad Basuki,0XINT5,Adit Setyo
 ANGGOTA,Safira Dini,+6289012345678,18,Trial,Perempuan,Cantika Amalia,3OBCPT,Safira Dini
-ANGGOTA,Mizan,098765432123,19,Premium,Laki laki,Ahmad Basuki,4EJMK3,Mizan
 PELATIH,Ahmad Basuki,+6289012345678,35,Laki-laki,Angkat Beban,Ahmad Basuki,7NPR1G
-PELATIH,Cantika Amalia,+628456789012,32,Perempuan,Lari,Cantika Amalia,JJTEGZ
-PELATIH,Kaka,09857694212,28,Laki-laki,Tembak burung,Kaka,QH5ZOT
+PELATIH,Cantika Amalia,+628456789012,32,Perempuan,Lari,Cantika Amalia,JJTEGZ
