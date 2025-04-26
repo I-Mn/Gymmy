@@ -1,16 +1,16 @@
 #ifndef DATA_H
 #define DATA_H
 #include <string>
-#include <fstream> // Untuk file handling
-#include <sstream> // Untuk stringstream
-#include <ctime> // Tambahkan header untuk time()
+#include <fstream>
+#include <sstream>
+#include <ctime> 
 using namespace std;
 #include <cstdlib>
 #include <vector>
 #include <iostream>
 
 void initializeRandomSeed() {
-    srand(static_cast<unsigned int>(time(0))); // Inisialisasi seed dengan waktu saat ini
+    srand(static_cast<unsigned int>(time(0)));
 }
 
 char randomLetter(){
